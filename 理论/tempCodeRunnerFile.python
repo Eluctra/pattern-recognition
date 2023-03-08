@@ -1,0 +1,29 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+import math
+
+def ndim_norm_pdf(x:np.ndarray, mu:np.ndarray, sigma:np.ndarray):  # 多维正态分布
+    y = (2 * math.pi) ** (x.shape[-1] / 2) * np.sqrt(np.linalg.det(sigma))
+    a = (x - mu)[..., np.newaxis]
+    y = (1 / y) * np.exp(-1 / 2 * np.sum(a * (np.linalg.inv(sigma) @ a), axis=-2))
+    return y
+
+x = np.linspace(-3, 3, num=100)
+y = np.linspace(-3, 3, num=100)
+x, y = np.meshgrid(x, y)
+
+z1 = ndim_norm_pdf(np.concatenate([x[..., np.newaxis], y[..., np.newaxis]], axis=-1).reshape((-1, 2)), 
+                  mu=np.zeros(2), sigma=np.array([[1, 0], [0, 1]]))
+z1 = np.reshape(z1, newshape=(100, 100))
+z2 = ndim_norm_pdf(np.concatenate([x[..., np.newaxis], y[..., np.newaxis]], axis=-1).reshape((-1, 2)), 
+                  mu=np.zeros(2), sigma=np.array([[2, 1], [1, 2]]))
+z2 = np.reshape(z2, newshape=(100, 100))
+
+plt.style.use('dark_background')
+fig, axs = plt.subplots(nrows=1, ncols=2, subplot_kw={"projection": "3d"}, figsize=(16, 6))
+surface1 = axs[0].plot_surface(x, y, z1, cmap='hot', linewidth=0)
+surface2 = axs[1].plot_surface(x, y, z2, cmap='hsv', linewidth=0)
+fig.colorbar(surface1, shrink=0.5, aspect=5)
+fig.colorbar(surface2, shrink=0.5, aspect=5)
+plt.show()
