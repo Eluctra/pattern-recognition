@@ -116,14 +116,16 @@ P(B, I, \neg L, G, J) = P(B)P(\neg L)P(I \mid B, \neg L)P(G \mid B, \neg L, I)P(
 $$
 
 (c) The original proposition could be expressed as
-$$
-P(B, L, I, J) = \sum_{G} P(B)P(L)P(I \mid B, L)P(G \mid B, L, I)P(J \mid G) = 0.06561
-$$
+\begin{align*}
+P(B \mid L, I, J) &= \frac{P(B, L, I, J)}{P(L, I, J)} \\[5mm]
+&= \frac{\sum_{G} P(B)P(L)P(I \mid B, L)P(G \mid B, L, I)P(J \mid G)}{P(B)P(L)P(I \mid B, L)} \\[5mm]
+&= 0.81
+\end{align*}
 
 (d) The new Bayesian belief network is shown as the following Figure
 \begin{figure*}[htbp]
 \centering
-\includegraphics[width=\linewidth]{Bayesian Brief Network.png}
+\includegraphics[width=0.5\linewidth]{Bayesian Brief Network.png}
 \end{figure*}
 
 \end{document}
