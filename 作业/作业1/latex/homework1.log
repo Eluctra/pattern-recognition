@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2023.1.21)  27 MAR 2023 23:14
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2023.1.21)  28 MAR 2023 23:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -189,7 +189,7 @@ LaTeX Font Info:    ... okay on input line 14.
 ] [2]
 File: Bayesian Brief Network.png Graphic file (type bmp)
 <Bayesian Brief Network.png>
- [3] (./homework1.aux) ) 
+ [3] [4] (./homework1.aux) ) 
 Here is how much of TeX's memory you used:
  2241 strings out of 476179
  36318 string characters out of 5809544
@@ -199,4 +199,4 @@ Here is how much of TeX's memory you used:
  1348 hyphenation exceptions out of 8191
  55i,10n,62p,285b,216s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on homework1.pdf (3 pages).
+Output written on homework1.pdf (4 pages).
