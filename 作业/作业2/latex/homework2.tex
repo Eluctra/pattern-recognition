@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+\usepackage[a4paper, top=15mm, left=10mm, right=10mm, bottom=15mm]{geometry}
+
+\title{Pattern Recognition Assignment\#2}
+\author{61821313 Zihao Wang}
+\date{\today}
+
+\setlength{\parindent}{2em}
+\linespread{2}
+
+\begin{document}
+
+\maketitle
+
+\section*{Question1}
+
+Calculate the distance from the test sample to each training sample
+
+\begin{center}
+    \setlength{\tabcolsep}{11mm}{
+        \begin{tabular}{cccc}
+            \hline\hline
+            Distance        &   Category        &   Distance        &   Category        \\
+            \hline
+            $L_{a} = 4.12$  &   $\omega_{1}$    &   $L_{e} = 5.00$  &   $\omega_{3}$    \\
+            $L_{b} = 2.24$  &   $\omega_{3}$    &   $L_{f} = 2.00$  &   $\omega_{2}$    \\
+            $L_{c} = 3.16$  &   $\omega_{3}$    &   $L_{g} = 5.66$  &   $\omega_{1}$    \\
+            $L_{d} = 3.16$  &   $\omega_{1}$    &   $L_{h} = 5.39$  &   $\omega_{3}$    \\
+            \hline\hline
+        \end{tabular}
+    }
+\end{center}
+
+(a)Use the single-nearest neighbor algorithm: the category of $\mathbf{x}$ is $\omega_{2}$
+
+(b)Use the 3-nearest neighbor algorithm: the category of $\mathbf{x}$ is $\omega_{3}$
+
+\section*{Question2}
+
+(a)Estimate $\mu$ by maximum-likelihood estimation
+$$
+\hat{\mu} = \frac{1}{n} \sum_{i = 1}^{n} x_{i} = 0.038
+$$
+
+The mean squared error between the estimated distribution and the ground-truth distribution
+$$
+error = \frac{1}{n} \sum_{i = 1}^{n} (\hat{p}(x_{i}) - p(x_{i}))^2 = 2.97 \times 10^{-5}
+$$
+
+(b)Estimate the pdf of each training sample through parzen window method
+
+\begin{center}
+    \setlength{\tabcolsep}{4mm}{
+        \begin{tabular}{ccccccccccc}
+            \hline\hline
+            sample & -0.17 & 0.24 & -0.79 & 0.32 & 0.44 & 0.08 & 0.26 & 0.06 & -0.71 & 0.65 \\
+            \hline
+            pdf    & 0.53  & 0.81 & 0.27  & 0.79 & 0.70 & 0.76 & 0.80 & 0.74 & 0.29  & 0.47 \\
+            \hline\hline
+        \end{tabular}
+    }
+\end{center}
+
+The mean squared error between the estimated distribution and the ground-truth distribution
+$$
+error = \frac{1}{n} \sum_{i = 1}^{n} (\hat{p}(x_{i}) - p(x_{i}))^2 = 9.20 \times 10^{-2}
+$$
+
+\end{document}
