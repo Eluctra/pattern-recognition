@@ -1,0 +1,311 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage[a4paper, top=15mm, left=10mm, right=10mm, bottom=15mm]{geometry}
+
+\title{Pattern Recognition Assignment\#3}
+\author{61821313 Zihao Wang}
+\date{\today}
+
+\linespread{2}
+\setlength{\parindent}{2em}
+
+\begin{document}
+
+\maketitle
+
+\section*{Question1}
+
+The final weight in perceptron can be computed through the code in appendix
+\begin{gather*}
+    (\mathrm{a}) \longrightarrow \hat{\boldsymbol{a}} = (-4,\ 4,\ -1)^{\mathrm{T}} \\
+    (\mathrm{b}) \longrightarrow \hat{\boldsymbol{a}} = (-4,\ 2,\ 0.5)^{\mathrm{T}}
+\end{gather*}
+
+Here is the log of fixed-increment single-sample correction algrithom and batch perceptron algrithom respectively
+\setlength{\tabcolsep}{13mm}{
+    \begin{table*}[htbp]
+    \centering
+    \begin{tabular}{cccc}
+        \hline\hline
+        error & weight & error & weight \\
+        \hline
+        $\boldsymbol{y}_{1}$    &   $(1,\ 4,\ 1)^{\mathrm{T}}$      &   
+        $\boldsymbol{y}_{4}$    &   $(-2,\ 4,\ -1)^{\mathrm{T}}$ \\
+        $\boldsymbol{y}_{3}$    &   $(0,\ 4,\ -1)^{\mathrm{T}}$     &   
+        $\boldsymbol{y}_{4}$    &   $(-3,\ 3,\ -2)^{\mathrm{T}}$ \\
+        $\boldsymbol{y}_{4}$    &   $(-1,\ 3,\ -2)^{\mathrm{T}}$    &   
+        $\boldsymbol{y}_{2}$    &   $(-2,\ 5,\ 0)^{\mathrm{T}}$ \\
+        $\boldsymbol{y}_{4}$    &   $(-2,\ 2,\ -3)^{\mathrm{T}}$    &   
+        $\boldsymbol{y}_{4}$    &   $(-3,\ 4,\ -1)^{\mathrm{T}}$ \\
+        $\boldsymbol{y}_{2}$    &   $(-1,\ 4,\ -1)^{\mathrm{T}}$    &   
+        $\boldsymbol{y}_{4}$    &   $(-4,\ 3,\ -2)^{\mathrm{T}}$ \\
+        $\boldsymbol{y}_{4}$    &   $(-2,\ 3,\ -2)^{\mathrm{T}}$    &   
+        $\boldsymbol{y}_{2}$    &   $(-3,\ 5,\ 0)^{\mathrm{T}}$ \\
+        $\boldsymbol{y}_{2}$    &   $(-1,\ 5,\ 0)^{\mathrm{T}}$     &   
+        $\boldsymbol{y}_{4}$    &   $(-4,\ 4,\ -1)^{\mathrm{T}}$ \\
+        \hline\hline
+    \end{tabular}
+    %\caption{fixed-increment single-sample correction algrithom}
+    \end{table*}
+}
+
+\setlength{\tabcolsep}{13mm}{
+    \begin{table*}[htbp]
+    \centering
+    \begin{tabular}{cccc}
+        \hline\hline
+        error & weight & error & weight \\
+        \hline
+        $\boldsymbol{y}_{1}$    &         &
+        $\boldsymbol{y}_{2}$    &   $(-3,\ 2,\ 1.5)^{\mathrm{T}}$ \\
+
+        $\boldsymbol{y}_{2}$    &   $(-2,\ 2,\ 2.5)^{\mathrm{T}}$     &   
+        $\boldsymbol{y}_{3}$    &    \\
+
+        $\boldsymbol{y}_{3}$    &       &   
+        $\boldsymbol{y}_{4}$    &   $(-4,\ 1.5,\ 0)^{\mathrm{T}}$ \\
+
+        $\boldsymbol{y}_{4}$    &   $(-3,\ 1.5,\ 1)^{\mathrm{T}}$    &   
+        $\boldsymbol{y}_{2}$    &   $(-3.5,\ 2.5,\ 1)^{\mathrm{T}}$ \\
+
+        $\boldsymbol{y}_{4}$    &   $(-3.5,\ 1,\ 0.5)^{\mathrm{T}}$    &   
+        $\boldsymbol{y}_{4}$    &   $(-4,\ 2,\ 0.5)^{\mathrm{T}}$ \\
+        \hline\hline
+    \end{tabular}
+    %\caption{batch perceptron algrithom}
+    \end{table*}
+}
+
+And the result discriminant function is
+\begin{gather*}
+    (\mathrm{a}) \longrightarrow g(\boldsymbol{y}) 
+    = \hat{\boldsymbol{a}}^{\mathrm{T}} \boldsymbol{y}
+    = -4 y_{1} + 4 y_{2} - y_{3} \\
+    (\mathrm{b}) \longrightarrow g(\boldsymbol{y}) 
+    = \hat{\boldsymbol{a}}^{\mathrm{T}} \boldsymbol{y}
+    = -4 y_{1} + 2 y_{2} + 0.5 y_{3}
+\end{gather*}
+
+\section*{Question2}
+
+Let $\ell_{1}(a,\ b)$ and $\ell_{2}(a,\ b)$ be the left hand and be the right hand respectively
+\begin{gather*}
+    \ell_{1}(a,\ b) = \frac{1}{m} || a \boldsymbol{v} + b - \boldsymbol{y} ||^{2} \\
+    \ell_{2}(a,\ b) = \frac{1}{m} || a (\boldsymbol{v} - \bar{v}) + b - (\boldsymbol{y} - \bar{y}) ||^{2}
+\end{gather*}
+
+Then let $\hat{a}_{1}$ and $\hat{b}_{1}$ be the minimizers of $\ell_{1}$
+\begin{equation*}
+    \hat{a}_{1},\ \hat{b}_{1} = arg \min_{a,\ b} \ell_{1}
+\end{equation*}
+
+Plugging them back to $\ell_{2}$
+\begin{equation*}
+    \ell_{2}(\hat{a}_{1},\ \hat{b}_{1}) 
+    = \frac{1}{m} || \hat{a}_{1} (\boldsymbol{v} - \bar{v}) + \hat{b}_{1} - (\boldsymbol{y} - \bar{y}) ||^{2}
+    = \frac{1}{m} || \hat{a}_{1} \boldsymbol{v} + (\hat{b}_{1} - \hat{a}_{1} \bar{v} + \bar{y})  - \boldsymbol{y} ||^{2}
+\end{equation*}
+
+Let
+\begin{equation*}
+    \hat{a}_{2} = \hat{a}_{1} \qquad \hat{b}_{2} = \hat{b}_{1} - \hat{a}_{1} \bar{v} + \bar{y},
+\end{equation*}
+
+Plugging them back to $\ell_{2}$
+\begin{equation*}
+    \ell_{2}(\hat{a}_{2},\ \hat{b}_{2}) = \ell_{1}(\hat{a}_{1},\ \hat{b}_{1}) = \min_{a,\ b} \ell_{1}
+\end{equation*}
+
+The above equation shows that
+\begin{equation*}
+    \min_{a,\ b} \ell_{2} \le \ell_{2}(\hat{a}_{2},\ \hat{b}_{2}) = \min_{a,\ b} \ell_{1}
+\end{equation*}
+
+Similarly, it can be proven that
+\begin{equation*}
+    \min_{a,\ b} \ell_{1} \le \min_{a,\ b} \ell_{2}
+\end{equation*}
+
+Therefore
+\begin{equation*}
+    \min_{a,\ b} \ell_{1} = \min_{a,\ b} \ell_{2}
+\end{equation*}
+
+\section*{Question3}
+
+Calculate the global scatter matrix $\mathbf{S}_{t}$
+\begin{gather*}
+    \boldsymbol{m} = \frac{1}{n} \sum_{i = 1}^{n} \boldsymbol{x}_{i} = 
+    (3,\ 1,\ 1.67)^{\mathrm{T}} \\
+    \mathbf{S}_{t} = \sum_{i = 1}^{n} (\boldsymbol{x}_{i} - \boldsymbol{m}) 
+    (\boldsymbol{x}_{i} - \boldsymbol{m})^{\mathrm{T}} = 
+    \begin{pmatrix}
+        2   &   -2  &   0 \\
+        -2  &   2   &   0 \\
+        0   &   0   &   10.67
+    \end{pmatrix}
+\end{gather*}
+
+Calculate eigen values and corresponding eigen vectors of $\mathbf{S}_{t}$
+\begin{gather*}
+    \mathbf{S}_{t} = \mathbf{P} \mathbf{\Lambda} \mathbf{P}^{-1} \\
+    \mathbf{\Lambda} = diag(10.67,\ 4,\ 0) \qquad
+    \mathbf{P} = 
+    \begin{pmatrix}
+        0   &   0.707   &   0.707 \\
+        0   &   -0.707  &   0.707 \\
+        1   &   0       &   0
+    \end{pmatrix}
+\end{gather*}
+
+Therefore, the best direction of projection
+\begin{equation*}
+    \boldsymbol{e} = (0,\ 0,\ 1)^{\mathrm{T}}
+\end{equation*}
+
+Samples after dimension reduction through PCA
+\begin{gather*}
+    \boldsymbol{a}_{i} = \boldsymbol{e}^{\mathrm{T}} (\boldsymbol{x}_{i} - \boldsymbol{m}) \\
+    \boldsymbol{a}_{1} = 1.33 \quad \boldsymbol{a}_{2} = 1.33 \quad \boldsymbol{a}_{3} = -2.67
+\end{gather*}
+
+\section*{Question4}
+
+Calculate the mean value of samples in each categories
+\begin{equation*}
+    \boldsymbol{m}_{1} = \frac{1}{ |D_{1}| } \sum_{\boldsymbol{x} \in D_{1}} \boldsymbol{x} =
+    \begin{pmatrix}
+        2 \\
+        4
+    \end{pmatrix}
+    \qquad
+    \boldsymbol{m}_{2} = \frac{1}{ |D_{2}| } \sum_{\boldsymbol{x} \in D_{2}} \boldsymbol{x} =
+    \begin{pmatrix}
+        -2 \\
+        -5
+    \end{pmatrix}
+\end{equation*}
+
+Calculate the between-class scatter matrix $\mathbf{S}_{b}$
+\begin{equation*}
+    \mathbf{S}_{b} = (\boldsymbol{m}_{1} - \boldsymbol{m}_{2})^{\mathrm{T}} 
+    (\boldsymbol{m}_{1} - \boldsymbol{m}_{2}) = 
+    \begin{pmatrix}
+        16  &   36 \\
+        36  &   81
+    \end{pmatrix}
+\end{equation*}
+
+Calculate the within-class scatter matrix $\mathbf{S}_{w}$
+\begin{equation*}
+    \mathbf{S}_{w} = \sum_{D_{i}} \sum_{\boldsymbol{x} \in D_{i}} 
+    (\boldsymbol{x} - \boldsymbol{m}_{i})^{\mathrm{T}} (\boldsymbol{x} - \boldsymbol{m}_{i}) =
+    \begin{pmatrix}
+        4   &   8 \\
+        8   &   22
+    \end{pmatrix}
+\end{equation*}
+
+Therefore, the LDA criterion function $J(\boldsymbol{w})$ is
+\begin{equation*}
+    J(\boldsymbol{w}) = \frac{\boldsymbol{w}^{\mathrm{T}} \mathbf{S}_{b} \boldsymbol{w}}
+    {\boldsymbol{w}^{\mathrm{T}} \mathbf{S}_{w} \boldsymbol{w}} =
+    \frac{16 w_{1}^{2} + 72 w_{1} w_{2} + 81 w_{2}^{2}}
+    {4 w_{1}^{2} + 16 w_{1} w_{2} + 22 w_{2}^{2}}
+\end{equation*}
+
+\newpage
+
+\section*{Code Appendix}
+
+\begin{multicols}{2}
+\begin{lstlisting}[
+    language=python, 
+    showstringspaces=false, 
+    basicstyle=\fontsize{6}{8}\selectfont\ttfamily, 
+    breaklines=true, 
+    breakatwhitespace=true
+]
+    import numpy as np
+    y1 = np.array([1., 4., 1.])
+    y2 = np.array([1., 2., 2.])
+    y3 = np.array([-1., 0., -2.])
+    y4 = np.array([-1., -1., -1.])
+
+    class perceptron:
+        def __init__(self) -> None:
+            self.a = None
+        def single_fit(
+                self, 
+                initial_value,
+                train_set, 
+                eta:float, 
+                theta:float=0., 
+                max_iteration:int=1000
+        ) -> None:
+            self.a = np.copy(initial_value)
+            print('initial weight:', self.a)
+            for i in range(max_iteration):
+                print('epoch:', i + 1)
+                flag = True
+                for y in train_set:
+                    if np.dot(self.a, y) <= theta:
+                        print('error in sample:', y, end='\t\t')
+                        flag = False
+                        self.a += eta * y
+                        print('weight after correction:', self.a)
+                if flag:
+                    print('successfully fit the training set')
+                    print('the final weight is:', self.a)
+                    return
+            print('failed to fit the training set in given iteration times')
+        def batch_fit(
+                self, 
+                initial_value,
+                train_set, 
+                eta:float, 
+                theta:float=0., 
+                max_iteration:int=1000
+        ) -> None:
+            self.a = np.copy(initial_value)
+            print('initial weight:', self.a)
+            for i in range(max_iteration):
+                print('epoch:', i + 1)
+                error_set = []
+                for y in train_set:
+                    if np.dot(self.a, y) <= theta:
+                        error_set.append(y)
+                if len(error_set) == 0:
+                    print('successfully fit the training set')
+                    print('the final weight is:', self.a)
+                    return
+                for y in error_set:
+                    print('error in sample:', y)
+                self.a += eta * np.sum(error_set, axis=0)
+                print('weight after correction', self.a)
+            print('failed to fit the training set in given iteration times')
+
+    single_model = perceptron()
+    batch_model = perceptron()
+
+    single_model.single_fit(
+        initial_value=np.array([0., 0., 0.]),
+        train_set=[y1, y2, y3, y4],
+        eta=1.,
+        theta=0.,
+        max_iteration=1000
+    )
+    batch_model.batch_fit(
+        initial_value=np.array([-3., -1., 1.]),
+        train_set=[y1, y2, y3, y4],
+        eta=0.5,
+        theta=0.5,
+        max_iteration=1000
+    )
+\end{lstlisting}
+\end{multicols}
+
+\end{document}
