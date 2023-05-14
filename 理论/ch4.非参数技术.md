@@ -147,7 +147,7 @@ $$
 \end{gather*}
 $$
 
-# $k$近邻方法
+# $k_{n}$近邻方法
 
 固定一个合法的频数$k_{n}$序列，以$\boldsymbol{x}$为中心让体积不断扩张直至包含到$k_{n}$个样本点，估计概率密度
 $$
@@ -170,7 +170,7 @@ $$
 
 将未见样本$\boldsymbol{x}$的类别预测为训练集$D_{n}$中与它距离最近的样本点$\tilde{\boldsymbol{x}}$的类别
 $$
-\tilde{\boldsymbol{x}} = arg \min_{\boldsymbol{x}_{i}} ||\boldsymbol{x}_{i} - \boldsymbol{x}||
+\tilde{\boldsymbol{x}} = \argmin_{\boldsymbol{x}_{i}} ||\boldsymbol{x}_{i} - \boldsymbol{x}||
 $$
 在样本数量趋于无穷时，可以认为**最近邻样本点**$\tilde{\boldsymbol{x}}$与未见样本$\boldsymbol{x}$足够近
 $$

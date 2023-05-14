@@ -150,15 +150,15 @@ $$
 已知模型的的状态转移概率矩阵$\mathbf{A}$、激发概率矩阵$\mathbf{B}$和初始分布$\pi$，计算最可能产生某一观测序列$\mathbf{V}^{\mathrm{T}}$的隐状态序列$\mathbf{\Omega}^{\mathrm{T}}$
 $$
 \begin{align*}
-\hat{\mathbf{\Omega}}^{\mathrm{T}} &= arg \max_{\mathbf{\Omega}^{\mathrm{T}}} p(\mathbf{\Omega}^{\mathrm{T}} \mid \mathbf{V}^{\mathrm{T}}) \\ \\
-&= arg \max_{\mathbf{\Omega}^{\mathrm{T}}} p(\mathbf{V}^{\mathrm{T}} \mid \mathbf{\Omega}^{\mathrm{T}}) p(\mathbf{\Omega}^{\mathrm{T}}) \\ \\
-&= arg \max_{\mathbf{\Omega}^{\mathrm{T}}} \prod_{t = 1}^{\mathrm{T}} p(\omega^{(t)} \mid \omega^{(t - 1)}) p(v^{(t)} \mid \omega^{(t)})
+\hat{\mathbf{\Omega}}^{\mathrm{T}} &= \argmax_{\mathbf{\Omega}^{\mathrm{T}}} p(\mathbf{\Omega}^{\mathrm{T}} \mid \mathbf{V}^{\mathrm{T}}) \\ \\
+&= \argmax_{\mathbf{\Omega}^{\mathrm{T}}} p(\mathbf{V}^{\mathrm{T}} \mid \mathbf{\Omega}^{\mathrm{T}}) p(\mathbf{\Omega}^{\mathrm{T}}) \\ \\
+&= \argmax_{\mathbf{\Omega}^{\mathrm{T}}} \prod_{t = 1}^{\mathrm{T}} p(\omega^{(t)} \mid \omega^{(t - 1)}) p(v^{(t)} \mid \omega^{(t)})
 \end{align*}
 $$
 ### 贪心算法
 每次转移选择最大激发概率的路径
 $$
-\hat{\omega}^{(t)} = arg \max_{\omega_{i}} \alpha_{i}(t)
+\hat{\omega}^{(t)} = \argmax_{\omega_{i}} \alpha_{i}(t)
 $$
 贪心算法 &rArr; 基于前向算法
 $$
@@ -168,7 +168,7 @@ $$
 &for\ t\ in\ 1 \sim \mathrm{T} \Rightarrow \\ \\
 &\quad \quad \alpha(t) = (b_{1k},\ b_{2k},\ \cdots,\ b_{nk}) \odot 
 \left[ \alpha(t - 1) \mathbf{A} \right] \\ \\
-&\quad \quad \mathrm{Path}(t) = arg \max_{\omega_{i}} \alpha_{i}(t)
+&\quad \quad \mathrm{Path}(t) = \argmax_{\omega_{i}} \alpha_{i}(t)
 \end{align*}
 $$
 贪心算法选择的是局部最优路径，但有可能会产生非法路径，例如为了选择最大激发概率而转移到某个特殊的状态，该状态无法转出，并且对于剩余的序列激发概率为0。
@@ -184,8 +184,8 @@ $$
 相应的，记录最大概率部分路径的前驱节点
 $$
 \begin{align*}
-\Psi_{j}(t) &= arg \max_{\omega_{i}} p(\omega_{j} \mid \omega_{i}) \delta_{i}(t - 1) p(v^{(t)} \mid \omega_{j}) \\ \\
-&= arg \max_{\omega_{i}} p(\omega_{j} \mid \omega_{i}) \delta_{i}(t - 1)
+\Psi_{j}(t) &= \argmax_{\omega_{i}} p(\omega_{j} \mid \omega_{i}) \delta_{i}(t - 1) p(v^{(t)} \mid \omega_{j}) \\ \\
+&= \argmax_{\omega_{i}} p(\omega_{j} \mid \omega_{i}) \delta_{i}(t - 1)
 \end{align*}
 $$
 维特比算法 &rArr; 前向搜索 && 反向回溯
@@ -197,8 +197,8 @@ $$
 &\quad \quad for\ j\ in\ 1 \sim c \Rightarrow \\ \\
 &\quad \quad \quad \quad \delta_{j}(t) = p(v^{(t)} \mid \omega_{j}) 
 \max_{\omega_{i}} \left[ p(\omega_{j} \mid \omega_{i}) \delta_{i}(t - 1) \right] \\ \\
-&\quad \quad \quad \quad \Psi_{j}(t) = arg \max_{\omega_{i}} p(\omega_{j} \mid \omega_{i}) \delta_{i}(t - 1) \\ \\
-&\mathrm{Path}(\mathrm{T}) = arg \max_{\omega_{i}} \delta_{i}(\mathrm{T}) \\ \\
+&\quad \quad \quad \quad \Psi_{j}(t) = \argmax_{\omega_{i}} p(\omega_{j} \mid \omega_{i}) \delta_{i}(t - 1) \\ \\
+&\mathrm{Path}(\mathrm{T}) = \argmax_{\omega_{i}} \delta_{i}(\mathrm{T}) \\ \\
 &for\ t\ in\ \mathrm{T} \sim 1 \Rightarrow \mathrm{Path}(t - 1) = \Psi_{i}(t) \ s.t.\ \mathrm{Path}(t) = \omega_{i}
 \end{align*}
 $$

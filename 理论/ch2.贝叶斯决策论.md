@@ -26,7 +26,7 @@ p(error) = \int_{-\infty}^{\infty} p(error \mid x) p(x)dx
 $$
 **贝叶斯分类器**； 使分类产生的误分类概率$p(error)$最小的决策方法
 $$
-\hat{\omega} = arg \min_{\omega}p(error) = arg \min_{\omega}p(error \mid x) = arg \max_{\omega}p(\omega_{i} \mid x)
+\hat{\omega} = \argmin_{\omega}p(error) = \argmin_{\omega}p(error \mid x) = \argmax_{\omega}p(\omega_{i} \mid x)
 $$
 贝叶斯分类器将后验概率最大的类别作为预测值，拥有理论上的最优性能
 
@@ -68,7 +68,7 @@ $$
 $$
 **贝叶斯决策规则**；使行为产生的总风险$\mathfrak{R}$最小的决策方法
 $$
-\boldsymbol{\alpha}(\boldsymbol{x}) = arg \min_{\alpha_{i}} \mathfrak{R} = arg \min_{\alpha_{i}} R(\alpha_{i} \mid \boldsymbol{x}) = arg \min_{\alpha_{i}} \sum_{j = 1}^{c} \lambda(\alpha_{i} \mid \omega_{j}) p(\omega_{j} \mid \boldsymbol{x})
+\boldsymbol{\alpha}(\boldsymbol{x}) = \argmin_{\alpha_{i}} \mathfrak{R} = \argmin_{\alpha_{i}} R(\alpha_{i} \mid \boldsymbol{x}) = \argmin_{\alpha_{i}} \sum_{j = 1}^{c} \lambda(\alpha_{i} \mid \omega_{j}) p(\omega_{j} \mid \boldsymbol{x})
 $$
 **最小误差率分类**；贝叶斯决策规则角度下的贝叶斯分类器
 $$
@@ -80,7 +80,7 @@ $$
 1, \quad i \ne j
 \end{matrix}
 \right. \\ \\
-\alpha(\boldsymbol{x}) = arg \min_{\alpha_{i}} R(\alpha_{i} \mid \boldsymbol{x}) = arg \max_{\alpha_{i}} p(\omega_{i} \mid \boldsymbol{x})
+\alpha(\boldsymbol{x}) = \argmin_{\alpha_{i}} R(\alpha_{i} \mid \boldsymbol{x}) = \argmax_{\alpha_{i}} p(\omega_{i} \mid \boldsymbol{x})
 \end{gather*}
 $$
 调整条件风险即可在贝叶斯分类器的基础上实现不同类别的判决区域的扩张或收缩
@@ -131,7 +131,7 @@ $$
 
 一般的分类器可以通过$c$个判别函数$g(\boldsymbol{x})$来表述
 $$
-\hat{\omega} = arg \max_{\omega_{i}} g_{i}(\boldsymbol{x})
+\hat{\omega} = \argmax_{\omega_{i}} g_{i}(\boldsymbol{x})
 $$
 同时，判别函数的单调递增映射仍然是判决函数。贝叶斯分类器可以表述为
 $$

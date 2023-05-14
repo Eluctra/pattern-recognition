@@ -15,7 +15,7 @@ $$
 
 假设分布中的未知参数$\theta$是客观存在的固定的值，且在观测前没有任何与参数相关的先验知识。参数$\theta$应当最大化地符合观测结果，即使观测结果出现的概率最大
 $$
-\hat{\theta} = arg \max_{\theta} p(D \mid \theta)
+\hat{\theta} = \argmax_{\theta} p(D \mid \theta)
 $$
 **对数似然函数**
 $$
@@ -24,7 +24,7 @@ $$
 问题转换为
 $$
 \begin{gather*}
-\hat{\theta} = arg \max_{\theta} \ell(\theta) \\ \\
+\hat{\theta} = \argmax_{\theta} \ell(\theta) \\ \\
 \nabla_{\theta} \ell(\hat{\theta}) = \sum_{k = 1}^{n} \nabla_{\theta} \ln p(\boldsymbol{x}_{k} \mid \hat{\theta}) = 0
 \end{gather*}
 $$
@@ -68,10 +68,10 @@ $$
 通过对可见变量$x$的观测和最大似然估计可知
 $$
 \begin{align*}
-\hat{\theta} &= arg \max_{\theta} \prod_{i = 1}^{n} p(x_{i} \mid \theta) \\ \\
-&= arg \max_{\theta} \prod_{i = 1}^{n} \int_{z} p(x_{i},\ z \mid \theta) dz \\ \\
-&= arg \max_{\theta} \sum_{i = 1}^{n} \ln \int_{z} p(x_{i},\ z \mid \theta) dz \\ \\
-&= arg \max_{\theta} \sum_{i = 1}^{n} \ln \int_{z} q_{i}(z) \frac{p(x_{i},\ z \mid \theta)}{q_{i}(z)} dz
+\hat{\theta} &= \argmax_{\theta} \prod_{i = 1}^{n} p(x_{i} \mid \theta) \\ \\
+&= \argmax_{\theta} \prod_{i = 1}^{n} \int_{z} p(x_{i},\ z \mid \theta) dz \\ \\
+&= \argmax_{\theta} \sum_{i = 1}^{n} \ln \int_{z} p(x_{i},\ z \mid \theta) dz \\ \\
+&= \argmax_{\theta} \sum_{i = 1}^{n} \ln \int_{z} q_{i}(z) \frac{p(x_{i},\ z \mid \theta)}{q_{i}(z)} dz
 \end{align*}
 $$
 其中，$q_{i}(z)$是$z$的任意一个概率分布
@@ -122,11 +122,11 @@ $$
 $$
 \begin{gather*}
 \begin{align*}
-\tilde{\theta} &\gets arg \max_{\theta} \sum_{i = 1}^{n} \mathcal{E}_{q_{i}(z)} \ln 
+\tilde{\theta} &\gets \argmax_{\theta} \sum_{i = 1}^{n} \mathcal{E}_{q_{i}(z)} \ln 
 \left[ \frac{p(x_{i},\ z \mid \theta)}{p(z \mid x_{i},\ \tilde{\theta})} \right] \\ \\
-&= arg \max_{\theta} \sum_{i = 1}^{n} \mathcal{E}_{q_{i}(z)} \ln p(x_{i},\ z \mid \theta) \\ \\
-&= arg \max_{\theta} \sum_{i = 1}^{n} \mathcal{E}_{q_{i}(z)} Q_{i}(\theta,\ \tilde{\theta}) \\ \\
-&= arg \max_{\theta} \sum_{i = 1}^{n} \int_{z} p(z,\ x_{i} \mid \tilde{\theta}) \ln p(x_{i},\ z \mid \theta) dz
+&= \argmax_{\theta} \sum_{i = 1}^{n} \mathcal{E}_{q_{i}(z)} \ln p(x_{i},\ z \mid \theta) \\ \\
+&= \argmax_{\theta} \sum_{i = 1}^{n} \mathcal{E}_{q_{i}(z)} Q_{i}(\theta,\ \tilde{\theta}) \\ \\
+&= \argmax_{\theta} \sum_{i = 1}^{n} \int_{z} p(z,\ x_{i} \mid \tilde{\theta}) \ln p(x_{i},\ z \mid \theta) dz
 \end{align*} \\ \\
 q_{i}(z) = p(z \mid x_{i},\ \tilde{\theta}) = \frac{p(z,\ x_{i} \mid \tilde{\theta})}{p(x_{i} \mid \tilde{\theta})},\quad
 Q_{i}(\theta,\ \tilde{\theta}) = \ln p(x_{i},\ z \mid \theta)
