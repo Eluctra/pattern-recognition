@@ -32,35 +32,23 @@ $$
 $$
 \mathbf{\Lambda} = diag(\lambda_{1},\ \lambda_{2},\ \cdots,\ \lambda_{p})
 $$
-将优化问题重写为
-$$
-\begin{gather*}
-\max_{\mathbf{W}} \min_{\mathbf{\Lambda}} \mathcal{L}(\mathbf{W},\ \mathbf{\Lambda}) \\ \\
-s.t.\quad \mathbf{W}_{i}^{\mathrm{T}} \mathbf{W}_{i} = 1
-\end{gather*}
-$$
-转换为对偶问题
-$$
-\begin{gather*}
-\min_{\mathbf{\Lambda}} \max_{\mathbf{W}} \mathcal{L}(\mathbf{W},\ \mathbf{\Lambda}) \\ \\
-s.t.\quad \mathbf{W}_{i}^{\mathrm{T}} \mathbf{W}_{i} = 1
-\end{gather*}
-$$
-内层的$\max_{\mathbf{W}} \mathcal{L}$需要满足方程
+极大值点需要满足方程
 $$
 \frac{\partial \mathcal{L}}{\partial \mathbf{W}} = 2 \mathbf{S}_{t}(\boldsymbol{x}) \mathbf{W} - 2 \mathbf{W} \mathbf{\Lambda} = \mathbf{0}^{\alpha \times \beta}
 $$
-即$\mathbf{W}$的所有列向量都是散布矩阵$\mathbf{S}_{t}(\boldsymbol{x})$的特征向量
+即$\mathbf{W}$的所有列向量都是散布矩阵$\mathbf{S}_{t}(\boldsymbol{x})$的特征向量，由于散布矩阵为实对称矩阵，这些向量相互正交
 
 代入原拉格朗日函数
 $$
 \mathcal{L}(\mathbf{\Lambda}) = tr(\mathbf{\Lambda} (\mathbf{W}^{\mathrm{T}} \mathbf{W})) - tr\bigg[\mathbf{\Lambda}(\mathbf{W}^{\mathrm{T}} \mathbf{W} - \mathbf{I}_{p})\bigg] = tr(\mathbf{\Lambda})
 $$
-
 优化问题转化为
 $$
-\min_{\mathbf{\Lambda}} \mathcal{L}(\mathbf{\Lambda}) = \min_{\mathbf{\Lambda}} tr(\mathbf{\Lambda})
+\max_{\mathbf{\Lambda}} \mathcal{L}(\mathbf{\Lambda}) = \max_{\Lambda} tr(\mathbf{\Lambda})
 $$
+即选取特征值最大的$\beta$个单位特征向量作为基向量进行投影
+
+需要注意的是，$\mathrm{PCA}$降维手段只适用于类正态分布的样本，这相当于是一个超椭球在做投影，选取较长的主轴投影可以使得降维样本尽可能的分散。为了衡量降维后样本整体的散布程度，上述推导中使用了散布矩阵的迹作为衡量标准；散布矩阵的行列式也可以起到相同的作用，但得到的解基向量不唯一。
 
 # 线性判别分析（$\mathrm{LDA}$）
 与$\mathrm{PCA}$相似，使用线性变换来对样本进行进行降维
@@ -99,30 +87,51 @@ $$
 $$
 为了在最大化类间散布程度的同时最小化类内散布程度，定义**广义瑞利商**
 $$
-J(\mathbf{W}) = \frac{tr[\mathbf{S}_{b}(\boldsymbol{y})]}{tr[\mathbf{S}_{w}(\boldsymbol{y})]} = \frac{tr[\mathbf{W}^{\mathrm{T}} \mathbf{S}_{b}(\boldsymbol{x})\mathbf{W}]}{tr[\mathbf{W}^{\mathrm{T}} \mathbf{S}_{w}(\boldsymbol{x}) \mathbf{W}]}
+J(\mathbf{W}) = \sum_{i = 1}^{\beta} \frac{\mathbf{W}_{i}^{\mathrm{T}} \mathbf{S}_{b} \mathbf{W}_{i}}{\mathbf{W}_{i}^{\mathrm{T}} \mathbf{S}_{w} \mathbf{W}_{i}}
 $$
-优化目标为
+其中$\mathbf{W}_{i}$为$\mathbf{W}$的列向量
+
+为了便于优化，可以固定$\mathbf{W}_{i}^{\mathrm{T}} \mathbf{S}_{w} \mathbf{W}_{i} = 1$，优化问题为
 $$
 \begin{gather*}
-\max_{\mathbf{W}} J(\mathbf{W}) = \max_{\mathbf{W}} \frac{tr[\mathbf{W}^{\mathrm{T}} \mathbf{S}_{b}(\boldsymbol{x})\mathbf{W}]}{tr[\mathbf{W}^{\mathrm{T}} \mathbf{S}_{w}(\boldsymbol{x}) \mathbf{W}]} \\ \\
-s.t.\quad \mathbf{W}_{i}^{\mathrm{T}} \mathbf{W}_{i} = 1
+\max_{\mathbf{W}} J(\mathbf{W}) = \max_{\mathbf{W}} \sum_{i = 1}^{\beta} \mathbf{W}_{i}^{\mathrm{T}} \mathbf{S}_{b} \mathbf{W}_{i} \\ \\
+s.t.\quad \mathbf{W}_{i}^{\mathrm{T}} \mathbf{S}_{w} \mathbf{W}_{i} = 1
 \end{gather*}
 $$
 构造拉格朗日函数
 $$
-\mathcal{L}(\mathbf{W},\ \mathbf{\Lambda}) = J(\mathbf{W}) - tr\bigg[ \mathbf{\Lambda}(\mathbf{W}^{\mathrm{T}} \mathbf{W} - \mathbf{I}_{\beta}) \bigg]
+\mathcal{L}(\mathbf{W},\ \lambda) = \sum_{i = 1}^{\beta} \mathbf{W}_{i}^{\mathrm{T}} \mathbf{S}_{b} \mathbf{W}_{i} - \sum_{i = 1}^{\beta} \lambda_{i} (\mathbf{W}_{i}^{\mathrm{T}} \mathbf{S}_{w} \mathbf{W}_{i} - 1)
 $$
-优化问题重写为
+极大值点需要满足方程
 $$
-\begin{gather*}
-\max_{\mathbf{W}} \min_{\mathbf{\Lambda}} \mathcal{L}(\mathbf{W},\ \mathbf{\Lambda}) \\ \\
-s.t.\quad \mathbf{W}_{i}^{\mathrm{T}} \mathbf{W}_{i} = 1
-\end{gather*}
+\frac{\partial \mathcal{L}}{\partial \mathbf{W}} = 2 \mathbf{S}_{b} \mathbf{W} - 2 \mathbf{S}_{w} \mathbf{W} \mathbf{\Lambda} = 0
 $$
-转换为对偶问题
+其中$\mathbf{\Lambda} = diag(\lambda_{1},\ \lambda_{2},\ \cdots,\ \lambda_{\beta})$
+
+如果类内散布矩阵$\mathbf{S}_{w}$可逆，$\mathbf{W}$满足
 $$
-\begin{gather*}
-\min_{\mathbf{\Lambda}} \max_{\mathbf{W}} \mathcal{L}(\mathbf{W},\ \mathbf{\Lambda}) \\ \\
-s.t.\quad \mathbf{W}_{i}^{\mathrm{T}} \mathbf{W}_{i} = 1
-\end{gather*}
+\mathbf{S}_{w}^{-1} \mathbf{S}_{b} \mathbf{W} = \mathbf{W} \mathbf{\Lambda}
 $$
+即$\mathbf{W}$所有的列向量均为$\mathbf{S}_{w}^{-1} \mathbf{S}_{b}$的特征向量，由于$\mathbf{S}_{w}^{-1} \mathbf{S}_{b}$为实对称矩阵，这些向量相互正交
+
+在$\mathbf{S}_{w}$不可逆时，也可以将$\mathbf{S}_{w}$替换为
+$$
+\mathbf{S}_{w} \leftarrow \mathbf{S}_{w} + \epsilon \mathbf{I}_{\beta},\quad \epsilon > 0
+$$
+或者通过特征多项式方程解出特征值
+$$
+|\mathbf{S}_{b} - \lambda_{i} \mathbf{S}_{w}| = 0
+$$
+进而通过线性方程解出对应的特征向量
+$$
+(\mathbf{S}_{b} - \lambda_{i} \mathbf{S}_{w}) \mathbf{W}_{i} = 0
+$$
+将方程代入拉格朗日函数
+$$
+\mathcal{L}(\mathbf{\Lambda}) = \sum_{i = 1}^{\beta} \lambda_{i} = tr(\mathbf{\Lambda})
+$$
+优化问题转换为
+$$
+\max_{\mathbf{\Lambda}} \mathcal{L}(\mathbf{\Lambda}) = \max_{\mathbf{\Lambda}} tr(\mathbf{\Lambda})
+$$
+即选取最大的$\beta$个特征值对应的特征向量作为投影方向
