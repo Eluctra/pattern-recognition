@@ -7,6 +7,7 @@ from knn import KNN
 args = dict()
 args['dataroot'] = r'./data/'
 
+
 class IrisData(object):
 
     def __init__(self):
@@ -97,11 +98,43 @@ class IrisData(object):
         plt.show()
 
 if __name__ == '__main__':
+    import warnings
+    warnings.filterwarnings('ignore')
+
     iris = IrisData()
+    k = 5
+
+    # **************  euclidean  ************** #
+
+    model, acc = iris.euclidean(k)
+    print('euclidean accuracy: {}'.format(acc))
+    y_pred = np.array([
+        model.predict(x, k)
+        for x in iris.test
+    ], dtype=np.int32)
+    pd.DataFrame(y_pred).to_csv(
+        r'./docs/task1_test_prediction.csv', 
+        index=False, header=['label']
+    )
+
+    # ************** mahalanobis ************** #
+
     model, acc, history = iris.mahalanobis(
-        5, 2, 0.1, 0.95, 64
+        k=k,
+        transform_dim=2, 
+        lr=0.1, 
+        decay=0.95, 
+        iterations=64
     )
     plt.style.use('seaborn')
     iris.render_mahalanobis_history(history)
     iris.render_mahalanobis_model(model)
-    print(acc)
+    print('mahalanobis accuracy: {}'.format(acc))
+    y_pred = np.array([
+        model.predict(x, k)
+        for x in iris.test
+    ], dtype=np.int32)
+    pd.DataFrame(y_pred).to_csv(
+        r'./docs/task2_test_prediction.csv', 
+        index=False, header=['label']
+    )

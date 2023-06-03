@@ -97,8 +97,13 @@ class WineData(object):
         plt.show()
 
 if __name__ == '__main__':
+    import warnings
+    warnings.filterwarnings('ignore')
+
     plt.style.use('seaborn')
-    '''
+    
+    # *************** origin ******************** #
+
     wine_data = dict()
     wine_data['red'] = WineData('red')
     wine_data['white'] = WineData('white')
@@ -118,8 +123,9 @@ if __name__ == '__main__':
         patience=5
     )
     wine_data['white'].render_history(history)
-    '''
-    '''
+    
+    # ****************** PCA ******************** #
+
     wine_data = dict()
     wine_data['red'] = WineData('red')
     wine_data['white'] = WineData('white')
@@ -145,8 +151,9 @@ if __name__ == '__main__':
         lr=0.001, iterations=120
     )
     wine_data['white'].render_history(history)
-    '''
     
+    # ****************** LDA ******************** #
+
     wine_data = dict()
     wine_data['red'] = WineData('red')
     wine_data['white'] = WineData('white')
@@ -157,7 +164,7 @@ if __name__ == '__main__':
         lr=0.1, 
         decay=0.97, 
         iterations=64, 
-        patience=64
+        patience=5
     )
     wine_data['red'].render_history(history)
 
@@ -167,6 +174,6 @@ if __name__ == '__main__':
         lr=0.1, 
         decay=0.97, 
         iterations=64, 
-        patience=64
+        patience=5
     )
     wine_data['white'].render_history(history)

@@ -10,12 +10,10 @@ from module import Sigmoid
 from module import Tanh
 from module import Softmax
 from module import Sequence
-from module import MLP
 from loss import SparseCrossEntropy
 
-path = os.getcwd()
 args = dict()
-args['dataroot'] =  path + '/data/'
+args['dataroot'] =  r'./data/'
 args['files'] = {
     'train': {
         'images': 'train-images.idx3-ubyte', 
@@ -26,13 +24,13 @@ args['files'] = {
         'labels': 't10k-labels.idx1-ubyte'
     }
 }
-args['modelroot'] = path + '/model/'
+args['modelroot'] = r'./model/'
 args['lr'] = 0.01
 args['epochs'] = 64
 args['batch_nbr'] = 940
 args['batch_size'] = 64
 args['decay'] = 0.9
-args['patience'] = 5
+args['patience'] = 10
 
 def train_on_batch(
         lr, 
@@ -132,8 +130,8 @@ def render_history(history):
     plt.xticks(fontsize=25)
     plt.yticks(fontsize=25)
     axs = (
-        plt.subplot(121), 
-        plt.subplot(122)
+        plt.subplot(1, 2, 1), 
+        plt.subplot(1, 2, 2)
     )
     axs[0].set_title('Loss', fontsize=20)
     axs[1].set_title('Accuracy', fontsize=20)
@@ -164,6 +162,9 @@ def render_history(history):
     plt.show()
 
 if __name__ == '__main__':
+    import warnings
+    warnings.filterwarnings('ignore')
+
     loader = dict()
     loader['train'] = DataLoader(
         args['dataroot'], 
