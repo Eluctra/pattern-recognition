@@ -28,13 +28,17 @@ class SigmoidRegression(object):
             data, 
             label, 
             lr, 
+            decay, 
             iterations, 
+            patience, 
             epsilon=0.001
     ): 
         history = dict()
         history['loss'] = []
         history['acc']  = []
         n = data.shape[0]
+        best_acc = 0.
+        tolerance = 0
         for i in range(iterations):
             y_pred = self.predict(data)
             positive = label * (1 / (y_pred + epsilon))
@@ -50,6 +54,14 @@ class SigmoidRegression(object):
             loss = -np.sum(positive + negative) / n
             y_pred = y_pred > 0.5
             acc = np.sum(y_pred == label) / n
+            if acc > best_acc:
+                tolerance = 0
+                best_acc = acc
+            else:
+                tolerance += 1
+            if tolerance >= patience:
+                break
+            lr *= decay
             history['loss'].append(loss)
             history['acc'].append(acc)
         return history
@@ -85,7 +97,9 @@ class SoftmaxRegression(object):
             data, 
             label, 
             lr, 
+            decay, 
             iterations, 
+            patience, 
             epsilon=0.001
     ):
         history = dict()
@@ -93,6 +107,8 @@ class SoftmaxRegression(object):
         history['acc']  = []
         y_true = np.eye(self.c)[label]
         n = data.shape[0]
+        best_acc = 0.
+        tolerance = 0
         for i in range(iterations):
             y_pred = self.predict(data)
             grad = -y_true * (1 / (y_pred + epsilon))
@@ -105,6 +121,14 @@ class SoftmaxRegression(object):
             loss = np.sum(loss) / n
             y_pred = np.argmax(y_pred, -1)
             acc = np.sum(y_pred == label) / n
+            if acc > best_acc:
+                tolerance = 0
+                best_acc = acc
+            else:
+                tolerance += 1
+            if tolerance >= patience:
+                break
+            lr *= decay
             history['loss'].append(loss)
             history['acc'].append(acc)
         return history
@@ -129,7 +153,14 @@ if __name__ == '__main__':
         label1, label2, label3, label4
     ], axis=0)
     model = SoftmaxRegression(2, 4)
-    history = model.fit(data, label, 0.01, 80)
+    history = model.fit(
+        data, 
+        label, 
+        lr=0.01, 
+        decay=0.97,
+        iterations=80, 
+        patience=5
+    )
     fig = plt.figure(figsize=(13, 6))
     axs = plt.subplot(121), plt.subplot(122)
     axs[0].set_title('loss', fontsize=20)

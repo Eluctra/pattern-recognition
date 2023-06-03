@@ -38,7 +38,13 @@ class WineData(object):
         self.dim = n_components
         return model
 
-    def classify(self, lr, iterations):
+    def classify(
+            self, 
+            lr, 
+            decay, 
+            iterations, 
+            patience
+    ):
         model = SoftmaxRegression(
             self.dim, self.c
         )
@@ -46,7 +52,9 @@ class WineData(object):
             self.data, 
             self.label, 
             lr, 
-            iterations
+            decay, 
+            iterations, 
+            patience
         )
         return model, history
     
@@ -56,8 +64,8 @@ class WineData(object):
             plt.subplot(1, 2, 1), 
             plt.subplot(1, 2, 2)
         ]
-        axs[0].set_title('loss')
-        axs[1].set_title('acc')
+        axs[0].set_title('loss', fontsize=20)
+        axs[1].set_title('accuracy', fontsize=20)
         axs[0].plot(history['loss'], color='darkcyan')
         axs[1].plot(history['acc'],  color='orange')
         plt.show()
@@ -65,9 +73,9 @@ class WineData(object):
     def render_data(self, title, xlim=None, ylim=None):
         if self.dim != 2:
             return
-        fig = plt.figure(figsize=(6, 6))
+        fig = plt.figure(figsize=(12, 12))
         axs = plt.subplot(1, 1, 1)
-        axs.set_title(title)
+        axs.set_title(title, fontsize=20)
         if xlim is not None:
             axs.set_xlim(xlim[0], xlim[1])
         if ylim is not None:
@@ -81,8 +89,11 @@ class WineData(object):
             axs.scatter(
                 data_i[:, 0], 
                 data_i[:, 1], 
-                s=10, c=colors[i]
+                s=10, 
+                c=colors[i], 
+                label='category {}'.format(i)
             )
+        axs.legend(fontsize=20)
         plt.show()
 
 if __name__ == '__main__':
@@ -93,46 +104,69 @@ if __name__ == '__main__':
     wine_data['white'] = WineData('white')
     
     model, history = wine_data['red'].classify(
-        lr=0.001, iterations=64
+        lr=0.001, 
+        decay=0.97,
+        iterations=64, 
+        patience=5
     )
     wine_data['red'].render_history(history)
 
     model, history = wine_data['white'].classify(
-        lr=0.001, iterations=64
+        lr=0.001, 
+        decay=0.97,
+        iterations=64, 
+        patience=5
     )
     wine_data['white'].render_history(history)
     '''
-
+    '''
     wine_data = dict()
     wine_data['red'] = WineData('red')
     wine_data['white'] = WineData('white')
 
-    wine_data['red'].decompose(PCA, 3)
+    wine_data['red'].decompose(PCA, 2)
+    wine_data['red'].render_data(
+        'red', 
+        (-150, 50), 
+        (-30, 50)
+    )
     model, history = wine_data['red'].classify(
         lr=0.001, iterations=120
     )
     wine_data['red'].render_history(history)
 
-    wine_data['white'].decompose(PCA, 3)
+    wine_data['white'].decompose(PCA, 2)
+    wine_data['white'].render_data(
+        'white', 
+        (-200, 150), 
+        (-50, 100)
+    )
     model, history = wine_data['white'].classify(
         lr=0.001, iterations=120
     )
     wine_data['white'].render_history(history)
-
     '''
+    
     wine_data = dict()
     wine_data['red'] = WineData('red')
     wine_data['white'] = WineData('white')
 
     wine_data['red'].decompose(LDA, 2)
+    wine_data['red'].render_data('red')
     model, history = wine_data['red'].classify(
-        lr=0.001, iterations=64
+        lr=0.1, 
+        decay=0.97, 
+        iterations=64, 
+        patience=64
     )
     wine_data['red'].render_history(history)
 
     wine_data['white'].decompose(LDA, 2)
+    wine_data['white'].render_data('white')
     model, history = wine_data['white'].classify(
-        lr=0.001, iterations=64
+        lr=0.1, 
+        decay=0.97, 
+        iterations=64, 
+        patience=64
     )
     wine_data['white'].render_history(history)
-    '''

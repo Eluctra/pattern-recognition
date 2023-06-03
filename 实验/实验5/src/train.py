@@ -10,6 +10,7 @@ from module import Sigmoid
 from module import Tanh
 from module import Softmax
 from module import Sequence
+from module import MLP
 from loss import SparseCrossEntropy
 
 path = os.getcwd()

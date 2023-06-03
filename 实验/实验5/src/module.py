@@ -183,3 +183,47 @@ class Sequence(Module):
             module.load_weights(
                 modelroot + 'sequence{}_'.format(i)
             )
+
+class MLP(Module):
+
+    def __init__(self, input_dim, output_dim):
+        super().__init__()
+        self.linear_1 = Linear(input_dim, 128)
+        self.relu = ReLU()
+        self.linear_2 = Linear(128, output_dim)
+
+    def forward(self, x):
+        x = self.linear_1.forward(x)
+        x = self.relu.forward(x)
+        x = self.linear_2.forward(x)
+        return x
+    
+    def backward(self, dy):
+        dy = self.linear_2.backward(dy)
+        dy = self.relu.backward(dy)
+        dy = self.linear_1.backward(dy)
+        return dy
+    
+    def update(self, lr):
+        self.linear_1.update(lr)
+        self.linear_2.update(lr)
+    
+    def zero_grad(self):
+        self.linear_1.zero_grad()
+        self.linear_2.zero_grad()
+        
+    def save_weights(self, modelroot: str):
+        self.linear_1.save_weights(
+            modelroot + 'linear_1'
+        )
+        self.linear_2.save_weights(
+            modelroot + 'linear_2'
+        )
+
+    def load_weights(self, modelroot: str):
+        self.linear_1.load_weights(
+            modelroot + 'linear_1'
+        )
+        self.linear_2.load_weights(
+            modelroot + 'linear_2'
+        )

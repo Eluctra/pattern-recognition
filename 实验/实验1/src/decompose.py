@@ -50,6 +50,8 @@ class LDA(object):
             Sw += epsilon * np.eye(Sw.shape[0])
         scale = np.matmul(np.linalg.inv(Sw), Sb)
         values, vecs = np.linalg.eig(scale)
+        values = values.astype(np.float32)
+        vecs   = vecs.astype(np.float32)
         self.transformer = vecs[:, :self.n]
 
     def transform(self, data):
