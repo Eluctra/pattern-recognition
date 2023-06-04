@@ -72,7 +72,7 @@ class SoftmaxRegression(object):
             self, 
             input_dim, 
             output_dim, 
-            scale=0.1
+            scale=0.01
     ):
         self.w = scale * np.random.randn(
             input_dim, 
@@ -132,6 +132,14 @@ class SoftmaxRegression(object):
             history['loss'].append(loss)
             history['acc'].append(acc)
         return history
+    
+    def save_model(self, modelroot):
+        np.save(modelroot + 'w.npy', self.w)
+        np.save(modelroot + 'b.npy', self.b)
+
+    def load_model(self, modelroot):
+        self.w = np.load(modelroot + 'w.npy')
+        self.b = np.load(modelroot + 'b.npy')
 
 if __name__ == '__main__':
     import matplotlib.pyplot as plt

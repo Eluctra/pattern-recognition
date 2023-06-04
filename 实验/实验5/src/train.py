@@ -10,6 +10,7 @@ from module import Sigmoid
 from module import Tanh
 from module import Softmax
 from module import Sequence
+from module import MLP
 from loss import SparseCrossEntropy
 
 args = dict()
@@ -26,11 +27,11 @@ args['files'] = {
 }
 args['modelroot'] = r'./model/'
 args['lr'] = 0.01
-args['epochs'] = 64
+args['epochs'] = 32
 args['batch_nbr'] = 940
 args['batch_size'] = 64
-args['decay'] = 0.9
-args['patience'] = 10
+args['decay'] = 0.95
+args['patience'] = 5
 
 def train_on_batch(
         lr, 
@@ -93,7 +94,15 @@ def train(
         history['train']['acc'].append(0.)
         history['val']['loss'].append(0.)
         history['val']['acc'].append(0.)
-        alpha = decay ** epoch
+        for batch in range(batch_nbr):
+            loss, correct = train_on_batch(
+                lr, 
+                model, 
+                loader['train'], 
+                criterion
+            )
+            history['train']['loss'][-1] += loss
+            history['train']['acc'][-1] += correct
         for batch in range(batch_nbr):
             loss, correct = val_on_batch(
                 model, 
@@ -102,15 +111,7 @@ def train(
             )
             history['val']['loss'][-1] += loss
             history['val']['acc'][-1] += correct
-        for batch in range(batch_nbr):
-            loss, correct = train_on_batch(
-                alpha * lr, 
-                model, 
-                loader['train'], 
-                criterion
-            )
-            history['train']['loss'][-1] += loss
-            history['train']['acc'][-1] += correct
+        lr *= decay
         history['train']['loss'][-1] /= sample_nbr
         history['train']['acc'][-1]  /= sample_nbr
         history['val']['loss'][-1]   /= sample_nbr
