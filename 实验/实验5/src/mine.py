@@ -30,7 +30,7 @@ args['lr'] = 0.01
 args['epochs'] = 32
 args['batch_nbr'] = 940
 args['batch_size'] = 64
-args['decay'] = 0.95
+args['decay'] = 0.97
 args['patience'] = 5
 
 def train_on_batch(
@@ -126,18 +126,15 @@ def train(
     return history
 
 def render_history(history):
-    plt.style.use('seaborn')
     fig = plt.figure(figsize=(13, 6))
-    plt.xticks(fontsize=25)
-    plt.yticks(fontsize=25)
     axs = (
         plt.subplot(1, 2, 1), 
         plt.subplot(1, 2, 2)
     )
     axs[0].set_title('Loss', fontsize=20)
     axs[1].set_title('Accuracy', fontsize=20)
-    axs[0].set_xlabel('iteration', fontsize=17)
-    axs[1].set_xlabel('iteration', fontsize=17)
+    axs[0].set_xlabel('iteration', fontsize=20)
+    axs[1].set_xlabel('iteration', fontsize=20)
     axs[0].plot(
         history['train']['loss'], 
         color='darkcyan', 
@@ -165,6 +162,8 @@ def render_history(history):
 if __name__ == '__main__':
     import warnings
     warnings.filterwarnings('ignore')
+
+    plt.style.use('seaborn')
 
     loader = dict()
     loader['train'] = DataLoader(

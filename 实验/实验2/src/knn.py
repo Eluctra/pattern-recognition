@@ -1,7 +1,7 @@
 import numpy as np
 from tqdm import tqdm
 
-class KNN:
+class KNN(object):
 
     def __init__(self, solver:str):
         self.solver = solver

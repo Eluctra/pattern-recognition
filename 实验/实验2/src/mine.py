@@ -3,20 +3,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from knn import KNN
+from data import IrisData
 
 args = dict()
 args['dataroot'] = r'./data/'
 
 
-class IrisData(object):
+class MyIrisData(IrisData):
 
-    def __init__(self):
-        self.train = args['dataroot'] + 'train.csv'
-        self.val = args['dataroot'] + 'val.csv'
-        self.test = args['dataroot'] + 'test_data.csv'
-        self.train = pd.read_csv(self.train).to_numpy()
-        self.val = pd.read_csv(self.val).to_numpy()
-        self.test = pd.read_csv(self.test).to_numpy()
+    def __init__(self, dataroot):
+        super().__init__(dataroot)
     
     def euclidean(self, k):
         model = KNN('euclidean')
@@ -101,7 +97,7 @@ if __name__ == '__main__':
     import warnings
     warnings.filterwarnings('ignore')
 
-    iris = IrisData()
+    iris = MyIrisData(args['dataroot'])
     k = 5
 
     # **************  euclidean  ************** #
