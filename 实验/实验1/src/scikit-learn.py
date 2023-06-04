@@ -84,7 +84,7 @@ if __name__ == '__main__':
         (-150, 200), 
         (-50, 100)
     )
-    model, acc = wine_data['red'].classify()
+    model, acc = wine_data['white'].classify()
     print('white PCA data accuracy: {}'.format(acc))
 
     # ****************** LDA ******************** #
@@ -104,5 +104,5 @@ if __name__ == '__main__':
 
     model = wine_data['white'].decompose(LDA, 2)
     wine_data['white'].render_data('white')
-    model, acc = wine_data['red'].classify()
+    model, acc = wine_data['white'].classify()
     print('white LDA data accuracy: {}'.format(acc))

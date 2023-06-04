@@ -24,7 +24,7 @@ class MyWineData(WineData):
             wine_type
         )
 
-    def decompose(self, solver, n_components):
+    def decompose(self, solver, n_components, scale=1000):
         model = solver(n_components)
         if solver is PCA:
             model.fit(self.data)
@@ -34,7 +34,9 @@ class MyWineData(WineData):
                 self.label, 
                 self.c
             )
-        self.data = model.transform(self.data)
+        self.data = model.transform(
+            self.data, scale
+        )
         self.dim = n_components
         return model
 
@@ -75,7 +77,7 @@ if __name__ == '__main__':
     warnings.filterwarnings('ignore')
 
     plt.style.use('seaborn')
-    
+    '''
     # *************** origin ******************** #
 
     wine_data = dict()
@@ -145,7 +147,7 @@ if __name__ == '__main__':
         args['modelroot'] + 'white_pca'
     )
     wine_data['white'].render_history(history)
-    
+    '''
     # ****************** LDA ******************** #
 
     wine_data = dict()
@@ -156,7 +158,7 @@ if __name__ == '__main__':
         args['dataroot'], 'white'
     )
 
-    wine_data['red'].decompose(LDA, 2)
+    wine_data['red'].decompose(LDA, 2, 1000)
     wine_data['red'].render_data('red')
     model, history = wine_data['red'].classify(
         lr=0.1, 
@@ -169,7 +171,7 @@ if __name__ == '__main__':
     )
     wine_data['red'].render_history(history)
 
-    wine_data['white'].decompose(LDA, 2)
+    wine_data['white'].decompose(LDA, 2, 200)
     wine_data['white'].render_data('white')
     model, history = wine_data['white'].classify(
         lr=0.1, 

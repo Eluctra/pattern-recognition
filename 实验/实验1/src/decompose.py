@@ -54,8 +54,8 @@ class LDA(object):
         vecs   = vecs.astype(np.float32)
         self.transformer = vecs[:, :self.n]
 
-    def transform(self, data):
-        return np.matmul(
+    def transform(self, data, scale=1000):
+        return scale * np.matmul(
             data - self.mean, 
             self.transformer
         )

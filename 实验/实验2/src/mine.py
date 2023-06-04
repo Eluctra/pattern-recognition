@@ -7,6 +7,7 @@ from data import IrisData
 
 args = dict()
 args['dataroot'] = r'./data/'
+args['predict'] = r'./prediction/'
 
 
 class MyIrisData(IrisData):
@@ -109,7 +110,7 @@ if __name__ == '__main__':
         for x in iris.test
     ], dtype=np.int32)
     pd.DataFrame(y_pred).to_csv(
-        r'./docs/task1_test_prediction.csv', 
+        args['predict'] + 'task1_test_prediction.csv', 
         index=False, header=['label']
     )
 
@@ -131,6 +132,6 @@ if __name__ == '__main__':
         for x in iris.test
     ], dtype=np.int32)
     pd.DataFrame(y_pred).to_csv(
-        r'./docs/task2_test_prediction.csv', 
+        args['predict'] + 'task2_test_prediction.csv', 
         index=False, header=['label']
     )

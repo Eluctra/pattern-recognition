@@ -6,6 +6,7 @@ from data import IrisData
 
 args = dict()
 args['dataroot'] = r'./data/'
+args['predict'] = r'./prediction/'
 
 class SciIrisData(IrisData):
 
@@ -35,6 +36,6 @@ if __name__ == '__main__':
     print('euclidean accuracy: {}'.format(acc))
     y_pred = model.predict(iris.test)
     pd.DataFrame(y_pred).to_csv(
-        r'./docs/task3_test_prediction.csv', 
+        args['predict'] + 'task3_test_prediction.csv', 
         index=False, header=['label']
     )
