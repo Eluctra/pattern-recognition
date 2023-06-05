@@ -117,13 +117,7 @@ logistic回归模型
     \end{equation*}
 \end{itemize}
 
-本次实验中采取前者进行实现。由于logistic回归模型只适用于二分类任务，对于多分类任务，可以
-通过OvO、OvM或MvM等方式将logistic模型拓展到多分类中，同时也可以考虑softmax回归模型
-\begin{equation*}
-    \hat{\boldsymbol{y}} = softmax(\mathbf{W}^{\mathrm{T}} \boldsymbol{x} + \boldsymbol{b})
-\end{equation*}
-
-并采取交叉熵损失对模型进行优化。
+本次实验中采取前者进行实现。
 
 \section{实验结果与分析}
 
@@ -139,61 +133,43 @@ sklearn与实验中的算法进行对比。sklearn是一个开源的基于python
 
 \begin{figure*}[htbp]
 	\centering
-	\subfloat[红葡萄酒（实验）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/mine/red_pca_data.png}}\hspace{3pt}
-	\subfloat[红葡萄酒（sklearn）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/sklearn/red_pca_data.png}}\\
-	\subfloat[白葡萄酒（实验）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/mine/white_pca_data.png}}\hspace{3pt}
-	\subfloat[白葡萄酒（sklearn）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/sklearn/white_pca_data.png}}
+	\subfloat[PCA（实验）]{\includegraphics[width=.45\columnwidth]
+    {../imgs/mine/pca_data.png}}\hspace{3pt}
+	\subfloat[PCA（sklearn）]{\includegraphics[width=.45\columnwidth]
+    {../imgs/sklearn/pca_data.png}}
 	\caption{PCA降维效果图}
 \end{figure*}
 
 \subsection*{LDA降维}
 
-经过实验算法以及sklearn算法的LDA降维后的样本如下图所示，可以看出，降维后的样本具有
-相对较好的可分性。并且样本经过实验的PCA算法降维后与sklearn的PCA算法相比拥有相同的性态，
-与PCA不同的是，二者仅在白葡萄酒上呈镜像对称。
+由于LDA限制降维维度不大于类别数减1，为了达到可视化的效果，本次实验仍然将样本降维到二维
+经过实验算法降维后的样本如下图所示，可以看出，降维后的样本具有相对较好的可分性。
+但无法展示sklearn的LDA降维效果图
 
-\begin{figure*}[htbp]
-	\centering
-	\subfloat[红葡萄酒（实验）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/mine/red_lda_data.png}}\hspace{3pt}
-	\subfloat[红葡萄酒（sklearn）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/sklearn/red_lda_data.png}}\\
-	\subfloat[白葡萄酒（实验）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/mine/white_lda_data.png}}\hspace{3pt}
-	\subfloat[白葡萄酒（sklearn）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/sklearn/white_lda_data.png}}
+\begin{figure*}[h]
+	\centering\includegraphics[width=.4\columnwidth]
+    {../imgs/mine/lda_data.png}
 	\caption{LDA降维效果图}
 \end{figure*}
 
 \subsection{logistic回归}
 
-实验中实现的logistic、softmax回归在原始数据集、PCA降维数据集以及LDA降维数据集上的
-训练过程如下图所示，分别展示了模型训练过程中损失函数以及分类准确率的变化。
+实验中实现的logistic回归在原始数据集、PCA降维数据集以及LDA降维数据集上的
+训练过程如后图所示，分别展示了模型训练过程中损失函数以及分类准确率的变化。
 
 \begin{figure*}[htbp]
 	\centering
-	\subfloat[红葡萄酒（原始）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/mine/red_origin.png}}\hspace{3pt}
-	\subfloat[白葡萄酒（原始）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/mine/white_origin.png}}\\
-	\subfloat[红葡萄酒（PCA）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/mine/red_pca.png}}\hspace{3pt}
-	\subfloat[白葡萄酒（PCA）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/mine/white_pca.png}}\\
-    \subfloat[红葡萄酒（LDA）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/mine/red_lda.png}}\hspace{3pt}
-	\subfloat[白葡萄酒（LDA）]{\includegraphics[width=.45\columnwidth]
-    {../imgs/mine/white_lda.png}}
+	\subfloat[训练历史（原始）]{\includegraphics[width=.65\columnwidth]
+    {../imgs/mine/origin_history.png}}\\
+	\subfloat[训练历史（PCA）]{\includegraphics[width=.65\columnwidth]
+    {../imgs/mine/pca_history.png}}\\
+	\subfloat[训练历史（LDA）]{\includegraphics[width=.65\columnwidth]
+    {../imgs/mine/lda_history.png}}
 	\caption{logistic回归（实验）}
 \end{figure*}
 
 从图像中可以看出，原始数据集的模型准确率居中，PCA降维后的数据集的模型准确率较差，
-LDA降维后的数据集的模型准确率最佳。同时，也可以观察到实验中的反常现象：损失函数与
-准确率一同上升，经过排查暂时没有发现这种现象出现的原因。
+LDA降维后的数据集的模型准确率最佳。
 
 相应地，sklearn提供的logistic回归模型在各个数据集上的准确率如下图所示，与实验算法相同
 的是，LDA的准确率最高，原始数据次之，PCA最低。
@@ -218,6 +194,14 @@ LDA降维后的数据集的模型准确率最佳。同时，也可以观察到�
 作为实验算法的对照算法，sklearn提供的算法接口方便调用，并且执行效率较高，
 能够高效地实现实验的需求。
 
+\newpage
+
 \section{代码附录}
+
+\begin{figure*}[h]
+    \centering
+    \includegraphics*[width=\columnwidth]{../imgs/code.png}
+    \caption{部分代码截图}
+\end{figure*}
 
 \end{document}

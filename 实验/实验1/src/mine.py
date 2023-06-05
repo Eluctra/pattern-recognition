@@ -2,29 +2,25 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-from logistic import SigmoidRegression
-from logistic import SoftmaxRegression
+from logistic import LogisticRegression
 from decompose import PCA
 from decompose import LDA
 from data import WineData
 
 args = dict()
 args['dataroot'] = r'./data/'
-args['modelroot'] = r'./model/'
+
 
 class MyWineData(WineData):
 
-    def __init__(
-            self, 
-            dataroot:str, 
-            wine_type:str
-    ):
-        super().__init__(
-            dataroot, 
-            wine_type
-        )
+    def __init__(self, dataroot:str):
+        super().__init__(dataroot)
 
-    def decompose(self, solver, n_components, scale=1000):
+    def decompose(
+            self, 
+            solver, 
+            n_components
+    ):
         model = solver(n_components)
         if solver is PCA:
             model.fit(self.data)
@@ -32,11 +28,9 @@ class MyWineData(WineData):
             model.fit(
                 self.data, 
                 self.label, 
-                self.c
+                2
             )
-        self.data = model.transform(
-            self.data, scale
-        )
+        self.data = model.transform(self.data)
         self.dim = n_components
         return model
 
@@ -47,9 +41,7 @@ class MyWineData(WineData):
             iterations, 
             patience
     ):
-        model = SoftmaxRegression(
-            self.dim, self.c
-        )
+        model = LogisticRegression(self.dim)
         history = model.fit(
             self.data, 
             self.label, 
@@ -77,109 +69,48 @@ if __name__ == '__main__':
     warnings.filterwarnings('ignore')
 
     plt.style.use('seaborn')
-    '''
+    
     # *************** origin ******************** #
 
-    wine_data = dict()
-    wine_data['red'] = MyWineData(
-        args['dataroot'], 'red'
-    )
-    wine_data['white'] = MyWineData(
-        args['dataroot'], 'white'
-    )
-    
-    model, history = wine_data['red'].classify(
-        lr=0.001, 
+    wine_data = MyWineData(args['dataroot'])
+    model, history = wine_data.classify(
+        lr=0.01, 
         decay=0.97,
-        iterations=64, 
-        patience=3
+        iterations=32, 
+        patience=5
     )
-    wine_data['red'].render_history(history)
-
-    model, history = wine_data['white'].classify(
-        lr=0.001, 
-        decay=0.97,
-        iterations=64, 
-        patience=3
-    )
-    wine_data['white'].render_history(history)
+    wine_data.render_history(history)
     
     # ****************** PCA ******************** #
 
-    wine_data = dict()
-    wine_data['red'] = MyWineData(
-        args['dataroot'], 'red'
+    wine_data = MyWineData(args['dataroot'])
+    wine_data.decompose(PCA, 2)
+    wine_data.render_data(
+        'PCA', 
+        (-150, 200), 
+        (-100, 50)
     )
-    wine_data['white'] = MyWineData(
-        args['dataroot'], 'white'
-    )
-
-    wine_data['red'].decompose(PCA, 2)
-    wine_data['red'].render_data(
-        'red', 
-        (-150, 50), 
-        (-30, 50)
-    )
-    model, history = wine_data['red'].classify(
-        lr=0.01, 
+    model, history = wine_data.classify(
+        lr=0.001, 
         decay=0.97,
         iterations=64, 
-        patience=2
+        patience=5
     )
-    model.save_model(
-        args['modelroot'] + 'red_pca'
-    )
-    wine_data['red'].render_history(history)
+    wine_data.render_history(history)
 
-    wine_data['white'].decompose(PCA, 2)
-    wine_data['white'].render_data(
-        'white', 
-        (-200, 150), 
-        (-50, 100)
-    )
-    model, history = wine_data['white'].classify(
-        lr=0.01, 
-        decay=0.97,
-        iterations=64, 
-        patience=2
-    )
-    model.save_model(
-        args['modelroot'] + 'white_pca'
-    )
-    wine_data['white'].render_history(history)
-    '''
     # ****************** LDA ******************** #
 
-    wine_data = dict()
-    wine_data['red'] = MyWineData(
-        args['dataroot'], 'red'
+    wine_data = MyWineData(args['dataroot'])
+    wine_data.decompose(LDA, 2)
+    wine_data.render_data(
+        'LDA', 
+        (-30, 20), 
+        (-10, 5)
     )
-    wine_data['white'] = MyWineData(
-        args['dataroot'], 'white'
-    )
-
-    wine_data['red'].decompose(LDA, 2, 1000)
-    wine_data['red'].render_data('red')
-    model, history = wine_data['red'].classify(
-        lr=0.1, 
-        decay=0.97, 
+    model, history = wine_data.classify(
+        lr=0.01, 
+        decay=0.97,
         iterations=64, 
         patience=5
     )
-    model.save_model(
-        args['modelroot'] + 'red_lda'
-    )
-    wine_data['red'].render_history(history)
-
-    wine_data['white'].decompose(LDA, 2, 200)
-    wine_data['white'].render_data('white')
-    model, history = wine_data['white'].classify(
-        lr=0.1, 
-        decay=0.97, 
-        iterations=64, 
-        patience=5
-    )
-    model.save_model(
-        args['modelroot'] + 'white_lda'
-    )
-    wine_data['white'].render_history(history)
+    wine_data.render_history(history)

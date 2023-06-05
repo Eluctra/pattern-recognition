@@ -12,15 +12,8 @@ args['dataroot'] = r'./data/'
 
 class SciWineData(WineData):
 
-    def __init__(
-            self, 
-            dataroot:str, 
-            wine_type:str
-    ):
-        super().__init__(
-            dataroot, 
-            wine_type
-        )
+    def __init__(self, dataroot:str):
+        super().__init__(dataroot)
 
     def decompose(self, solver, n_components):
         model = solver(n_components=n_components)
@@ -45,64 +38,26 @@ if __name__ == '__main__':
 
     # *************** origin ******************** #
 
-    wine_data = dict()
-    wine_data['red'] = SciWineData(
-        args['dataroot'], 'red'
-    )
-    wine_data['white'] = SciWineData(
-        args['dataroot'], 'white'
-    )
-
-    model, acc = wine_data['red'].classify()
-    print('red origin data accuracy: {}'.format(acc))
-
-    model, acc = wine_data['white'].classify()
-    print('white origin data accuracy: {}'.format(acc))
+    wine_data = SciWineData(args['dataroot'])
+    model, acc = wine_data.classify()
+    print('origin data accuracy: {}'.format(acc))
     
     # ****************** PCA ******************** #
 
-    wine_data = dict()
-    wine_data['red'] = SciWineData(
-        args['dataroot'], 'red'
-    )
-    wine_data['white'] = SciWineData(
-        args['dataroot'], 'white'
-    )
-
-    model = wine_data['red'].decompose(PCA, 2)
-    wine_data['red'].render_data(
-        'red', 
-        (-50, 150), 
-        (-30, 40)
-    )
-    model, acc = wine_data['red'].classify()
-    print('red PCA data accuracy: {}'.format(acc))
-
-    model = wine_data['white'].decompose(PCA, 2)
-    wine_data['white'].render_data(
-        'white', 
+    wine_data = SciWineData(args['dataroot'])
+    wine_data.decompose(PCA, 2)
+    wine_data.render_data(
+        'PCA', 
         (-150, 200), 
         (-50, 100)
     )
-    model, acc = wine_data['white'].classify()
-    print('white PCA data accuracy: {}'.format(acc))
+    model, acc = wine_data.classify()
+    print('PCA data accuracy: {}'.format(acc))
 
     # ****************** LDA ******************** #
 
-    wine_data = dict()
-    wine_data['red'] = SciWineData(
-        args['dataroot'], 'red'
-    )
-    wine_data['white'] = SciWineData(
-        args['dataroot'], 'white'
-    )
-
-    model = wine_data['red'].decompose(LDA, 2)
-    wine_data['red'].render_data('red')
-    model, acc = wine_data['red'].classify()
-    print('red LDA data accuracy: {}'.format(acc))
-
-    model = wine_data['white'].decompose(LDA, 2)
-    wine_data['white'].render_data('white')
-    model, acc = wine_data['white'].classify()
-    print('white LDA data accuracy: {}'.format(acc))
+    wine_data = SciWineData(args['dataroot'])
+    wine_data.decompose(LDA, 1)
+    wine_data.render_data('LDA')
+    model, acc = wine_data.classify()
+    print('LDA data accuracy: {}'.format(acc))
