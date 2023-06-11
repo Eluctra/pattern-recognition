@@ -27,7 +27,9 @@ $$
 $$
 
 # 一阶隐马尔可夫模型
-相较于可见马尔可夫模型，隐马尔可夫模型的状态不可见，但可以观测通过由系统隐藏状态激发出的可能的$m$个可见状态
+相较于可见马尔可夫模型，隐马尔可夫模型的状态不可见
+
+但可以观测通过由系统隐藏状态激发出的可能的$m$个可见状态
 $$
 v_{1},\ v_{2},\ \cdots,\ v_{m}
 $$
@@ -55,7 +57,9 @@ $$
 $$
 
 ## 估值问题
-已知模型的状态转移概率矩阵$\mathbf{A}$、发射概率矩阵$\mathbf{B}$以及初始分布$\pi$，计算模型在初始隐状态$\omega^{(0)}$下产生某一观测序列$\mathbf{V}^\mathrm{T}$的概率
+已知模型的状态转移概率矩阵$\mathbf{A}$、发射概率矩阵$\mathbf{B}$以及初始分布$\pi$
+
+计算模型在初始隐状态$\omega^{(0)}$下产生某一观测序列$\mathbf{V}^\mathrm{T}$的概率
 
 ### 暴力枚举方法
 枚举所有可能的隐状态序列$\mathbf{\Omega}_{r}^{\mathrm{T}}$，利用全概率公式求出该观测序列产生的概率
@@ -72,7 +76,9 @@ p(\mathbf{V}^\mathrm{T}) &= \sum_{r} p(\mathbf{V}^\mathrm{T} \mid \mathbf{\Omega
 &= \sum_{i = 1}^{c} \alpha_{i}(\mathrm{T})
 \end{align*}
 $$
-其中$\alpha_{i}(t)$代表在产生$t$时刻及之前所有可见状态序列的基础上，系统处在隐状态$\omega_{i}$的概率，同时$\alpha_{i}(t)$满足迭代方程
+其中$\alpha_{i}(t)$代表在产生$t$时刻及之前所有可见状态序列的基础上，系统处在隐状态$\omega_{i}$的概率
+
+同时$\alpha_{i}(t)$满足迭代方程
 $$
 \begin{align*}
 \alpha_{i}(t) &= \sum_{\omega^{(t - 1)}} \cdots \sum_{\omega^{(2)}} \sum_{\omega^{(1)}} \prod_{\tau = 1}^{t} p(\omega^{(\tau)} \mid \omega^{(\tau - 1)}) p(v^{(\tau)} \mid \omega^{(\tau)})\ \Rightarrow s.t.\ \omega^{(t)} = \omega_{i} \\ \\
@@ -147,7 +153,9 @@ $$
 $$
 
 ## 解码问题
-已知模型的的状态转移概率矩阵$\mathbf{A}$、激发概率矩阵$\mathbf{B}$和初始分布$\pi$，计算最可能产生某一观测序列$\mathbf{V}^{\mathrm{T}}$的隐状态序列$\mathbf{\Omega}^{\mathrm{T}}$
+已知模型的的状态转移概率矩阵$\mathbf{A}$、激发概率矩阵$\mathbf{B}$和初始分布$\pi$
+
+计算最可能产生某一观测序列$\mathbf{V}^{\mathrm{T}}$的隐状态序列$\mathbf{\Omega}^{\mathrm{T}}$
 $$
 \begin{align*}
 \hat{\mathbf{\Omega}}^{\mathrm{T}} &= \argmax_{\mathbf{\Omega}^{\mathrm{T}}} p(\mathbf{\Omega}^{\mathrm{T}} \mid \mathbf{V}^{\mathrm{T}}) \\ \\
@@ -171,10 +179,16 @@ $$
 &\quad \quad \mathrm{Path}(t) = \argmax_{\omega_{i}} \alpha_{i}(t)
 \end{align*}
 $$
-贪心算法选择的是局部最优路径，但有可能会产生非法路径，例如为了选择最大激发概率而转移到某个特殊的状态，该状态无法转出，并且对于剩余的序列激发概率为0。
+贪心算法选择的是局部最优路径，但有可能会产生非法路径
+
+例如为了选择最大激发概率而转移到某个特殊的状态，该状态无法转出，并且对于剩余的序列激发概率为0
 
 ### 维特比算法
-定义到$t$时刻为止，转移到隐状态$\omega_{i}$的所有部分路径的最大概率（部分最长“路径”）$\delta_{i}(t)$。这样可以过比较滤掉肯定不是最大路径的子路径，即对暴力搜索树进行剪枝操作。$\delta_{i}(t)$满足迭代方程
+定义到$t$时刻为止，转移到隐状态$\omega_{i}$的所有部分路径的最大概率（部分最长“路径”）$\delta_{i}(t)$
+
+这样可以过比较滤掉肯定不是最大路径的子路径，即对暴力搜索树进行剪枝操作
+
+$\delta_{i}(t)$满足迭代方程
 $$
 \begin{align*}
 \delta_{j}(t) &= \max_{\omega_{i}} \left[ p(\omega_{j} \mid \omega_{i}) \delta_{i}(t - 1) p(v^{(t)} \mid \omega_{j}) \right] \\ \\
