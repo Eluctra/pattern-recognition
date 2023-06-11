@@ -14,6 +14,12 @@
     - data
         + winequality-red.csv
         + winequality-white.csv
+    - docs
+        + imgs
+        + report
+            - lab1.tex
+            - lab1.pdf
+        + 实验1.pdf
     - src
         + __pycache__
         + data.py
@@ -59,6 +65,12 @@ lab1> python src/scikit-learn.py
         + test_data.csv
         + train.csv
         + val.csv
+    - docs
+        + imgs
+        + report
+            - lab2.tex
+            - lab2.pdf
+        + 实验2.pdf
     - prediction
         + task1_test_prediction.csv
         + task2_test_prediction.csv
@@ -110,6 +122,12 @@ lab2> python src/scikit-learn.py
         + t10k-labels.idx1-ubyte
         + train-images.idx3-ubyte
         + train-labels.idx1-ubyte
+    - docs
+        + imgs
+        + report
+            - lab5.tex
+            - lab5.pdf
+        + 实验5.pdf
     - model
         + ~~~.npy
         ...
