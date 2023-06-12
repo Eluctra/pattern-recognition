@@ -162,9 +162,9 @@ $$
 \begin{align*}
 g_{i}(\boldsymbol{x}) &= \ln{p(\boldsymbol{x} \mid \omega_{i})} + \ln{p(\omega_{i})} \\ \\
 &= -\frac{1}{2} (\boldsymbol{x} - \boldsymbol{\mu}_{i})^{\mathrm{T}} \boldsymbol{\Sigma}_{i}^{-1} (\boldsymbol{x} - \boldsymbol{\mu}_{i}) -
-\frac{d}{2} \ln{2\pi} - \frac{1}{2} \ln \left\| \boldsymbol{\Sigma}_{i} \right\| + \ln{p(\omega_{i})} \\ \\
+\frac{d}{2} \ln{2\pi} - \frac{1}{2} \ln \left| \boldsymbol{\Sigma}_{i} \right| + \ln{p(\omega_{i})} \\ \\
 &\Rightarrow -\frac{1}{2} (\boldsymbol{x} - \boldsymbol{\mu}_{i})^{\mathrm{T}} \boldsymbol{\Sigma}_{i}^{-1} (\boldsymbol{x} - \boldsymbol{\mu}_{i}) -
-\frac{1}{2} \ln \left\| \boldsymbol{\Sigma}_{i} \right\| + \ln{p(\omega_{i})}
+\frac{1}{2} \ln \left| \boldsymbol{\Sigma}_{i} \right| + \ln{p(\omega_{i})}
 \end{align*}
 $$
 
@@ -173,7 +173,7 @@ $$
 $$
 \begin{align*}
 g_{i}(\boldsymbol{x}) &= -\frac{1}{2\sigma^{2}} (\boldsymbol{x} - \boldsymbol{\mu}_{i})^{\mathrm{T}} (\boldsymbol{x} - \boldsymbol{\mu}_{i}) -
-\frac{1}{2} \ln \left\| \boldsymbol{\Sigma} \right\| + \ln{p(\omega_{i})} \\ \\
+\frac{1}{2} \ln \left| \boldsymbol{\Sigma} \right| + \ln{p(\omega_{i})} \\ \\
 &\Rightarrow -\frac{1}{2\sigma^{2}} (\boldsymbol{x} - \boldsymbol{\mu}_{i}) ^{\mathrm{T}} (\boldsymbol{x} - \boldsymbol{\mu}_{i}) + \ln{p(\omega_{i})} \\ \\
 &= -\frac{1}{2\sigma^{2}} (\boldsymbol{x} ^{\mathrm{T}} \boldsymbol{x} - 2\boldsymbol{\mu}_{i} ^{\mathrm{T}} \boldsymbol{x} + \boldsymbol{\mu}_{i} ^{\mathrm{T}} \boldsymbol{\mu}_{i}) + \ln{p(\omega_{i})} \\ \\
 &\Rightarrow -\frac{1}{2\sigma^{2}} (-2\boldsymbol{\mu}_{i} ^{\mathrm{T}} \boldsymbol{x} + \boldsymbol{\mu}_{i} ^{\mathrm{T}} \boldsymbol{\mu}_{i}) + \ln{p(\omega_{i})} \\ \\
@@ -184,7 +184,7 @@ $$
 $$
 \begin{align*}
 g_{i}(\boldsymbol{x}) &= -\frac{1}{2} (\boldsymbol{x} - \boldsymbol{\mu}_{i})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} (\boldsymbol{x} - \boldsymbol{\mu}_{i}) -
-\frac{1}{2} \ln \left\| \boldsymbol{\Sigma} \right\| + \ln{p(\omega_{i})} \\ \\
+\frac{1}{2} \ln \left| \boldsymbol{\Sigma} \right| + \ln{p(\omega_{i})} \\ \\
 &\Rightarrow -\frac{1}{2} (\boldsymbol{x} - \boldsymbol{\mu}_{i})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} (\boldsymbol{x} - \boldsymbol{\mu}_{i}) + \ln{p(\omega_{i})} \\ \\
 &= -\frac{1}{2} (\boldsymbol{x}^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{x} + \boldsymbol{\mu}_{i}^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_{i} - 
 2 \boldsymbol{\mu}_{i}^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{x}) + \ln{p(\omega_{i})} \\ \\
@@ -195,7 +195,7 @@ $$
 * $\boldsymbol{\Sigma}_{i} = any$
 $$
 g_{i}(\boldsymbol{x}) = -\frac{1}{2} (\boldsymbol{x} - \boldsymbol{\mu}_{i})^{\mathrm{T}} \boldsymbol{\Sigma}_{i}^{-1} (\boldsymbol{x} - \boldsymbol{\mu}_{i}) -
-\frac{1}{2} \ln \left\| \boldsymbol{\Sigma}_{i} \right\| + \ln{p(\omega_{i})}
+\frac{1}{2} \ln \left| \boldsymbol{\Sigma}_{i} \right| + \ln{p(\omega_{i})}
 $$
 
 在二分类问题中，上述判决函数可以表述为
@@ -258,13 +258,13 @@ $$
 \begin{align*}
 g(\boldsymbol{x}) &= g_{1}(\boldsymbol{x}) - g_{2}(\boldsymbol{x}) \\ \\
 &= -\frac{1}{2} \boldsymbol{x}^{\mathrm{T}} (\boldsymbol{\Sigma}_{1}^{-1} - \boldsymbol{\Sigma}_{2}^{-1}) \boldsymbol{x} + (\boldsymbol{\mu}_{1}^{\mathrm{T}} \boldsymbol{\Sigma}_{1}^{-1} - \boldsymbol{\mu}_{2}^{\mathrm{T}} \boldsymbol{\Sigma}_{2}^{-1}) \boldsymbol{x} + \ln{\frac{p(\omega_{1})}{p(\omega_{2})}} - \frac{1}{2} (\boldsymbol{\mu}_{1}^{\mathrm{T}} \boldsymbol{\Sigma}_{1}^{-1} \boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2}^{\mathrm{T}} \boldsymbol{\Sigma}_{2}^{-1} \boldsymbol{\mu}_{2}) \\ \\
-&= \boldsymbol{x}^{\mathrm{T}} \boldsymbol{W} \boldsymbol{x} + \boldsymbol{w} ^{\mathrm{T}} \boldsymbol{x} + b
+&= \boldsymbol{x}^{\mathrm{T}} \mathbf{W} \boldsymbol{x} + \boldsymbol{w} ^{\mathrm{T}} \boldsymbol{x} + b
 \end{align*}
 $$
 其中
 $$
 \begin{gather*}
-\boldsymbol{W} = -\frac{1}{2} (\boldsymbol{\Sigma}_{1}^{-1} - \boldsymbol{\Sigma}_{2}^{-1}) \\ \\
+\mathbf{W} = -\frac{1}{2} (\boldsymbol{\Sigma}_{1}^{-1} - \boldsymbol{\Sigma}_{2}^{-1}) \\ \\
 \boldsymbol{w} = \boldsymbol{\Sigma}_{1}^{-1} \boldsymbol{\mu}_{1} - \boldsymbol{\Sigma}_{2}^{-1} \boldsymbol{\mu}_{2} \\ \\
 b = \ln{\frac{p(\omega_{1})}{p(\omega_{2})}} - \frac{1}{2} (\boldsymbol{\mu}_{1}^{\mathrm{T}} \boldsymbol{\Sigma}_{1}^{-1} \boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2}^{\mathrm{T}} \boldsymbol{\Sigma}_{2}^{-1} \boldsymbol{\mu}_{2})
 \end{gather*}

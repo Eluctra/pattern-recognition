@@ -1,17 +1,12 @@
 在同一概率分布下独立地观测$n$个样本构成样本集，样本之间在参数分布上**条件独立**
-
 $$
 D = \left \{ \boldsymbol{x}_{1},\ \boldsymbol{x}_{2},\ \cdots,\ \boldsymbol{x}_{n} \right \}
 $$
-
 假设含有未知参数$\theta$（假设参数是一个固定值）的样本分布为
-
 $$
 p(\boldsymbol{x} \mid \theta)
 $$
-
 **似然函数**；在未知参数$\theta$下观测到这个样本集的概率密度
-
 $$
 p(D \mid \theta) = \prod_{k = 1}^{n} p(\boldsymbol{x}_{k} \mid \theta)
 $$
@@ -19,19 +14,14 @@ $$
 # 最大似然估计
 
 假设分布中的未知参数$\theta$是客观存在的固定的值，且在观测前没有任何与参数相关的先验知识。参数$\theta$应当最大化地符合观测结果，即使观测结果出现的概率最大
-
 $$
 \hat{\theta} = \argmax_{\theta} p(D \mid \theta)
 $$
-
 **对数似然函数**
-
 $$
 \ell(\theta) = \ln p(D \mid \theta) = \sum_{k = 1}^{n} \ln p(\boldsymbol{x}_{k} \mid \theta)
 $$
-
 问题转换为
-
 $$
 \begin{gather*}
 \hat{\theta} = \argmax_{\theta} \ell(\theta) \\ \\
@@ -42,7 +32,6 @@ $$
 ### 正态分布参数的最大似然估计
 
 对数似然函数
-
 $$
 \begin{align*}
 \ell(\mu;\ \boldsymbol{\Sigma}) &= \sum_{k = 1}^{n} \ln p(\boldsymbol{x}_{k} \mid \theta) \\ \\
@@ -52,9 +41,7 @@ $$
 &\Rightarrow \sum_{k = 1}^{n} \left[ -\frac{1}{2} (\boldsymbol{x}_{k} - \mu)^\mathrm{T} \boldsymbol{\Sigma}^{-1} (\boldsymbol{x}_{k} - \mu) - \frac{1}{2} \ln\mid\boldsymbol{\Sigma}\mid \right]
 \end{align*}
 $$
-
 参数估计
-
 $$
 \begin{gather*}
 \nabla_{\mu} \ell(\hat{\mu};\ \hat{\boldsymbol{\Sigma}}) = \hat{\boldsymbol{\Sigma}}^{-1} \sum_{k = 1}^{n} (\boldsymbol{x}_{k} - \hat{\mu}) = 0 \\ \\
@@ -64,9 +51,7 @@ $$
 \hat{\Sigma} = \frac{1}{n} \sum_{k = 1}^{n} (\boldsymbol{x}_{k} - \hat{\mu}) (\boldsymbol{x}_{k} - \hat{\mu})^\mathrm{T}
 \end{gather*}
 $$
-
 估计的偏差
-
 $$
 \begin{gather*}
 \tilde{\mu} = \frac{1}{n} \sum_{k = 1}^{n} \boldsymbol{x}_{k} = \hat{\mu} \\ \\
@@ -75,19 +60,15 @@ $$
 \hat{\Sigma} \overset{n \to \infty}{\Longrightarrow} \tilde{\Sigma}
 \end{gather*}
 $$
-
 对于协方差矩阵而言这是一种渐进式估计，在样本足够多的情况下近似为**无偏估计**
 
 # $\mathrm{EM}$算法
 
 可见随机变量$x$和隐藏随机变量$z$满足分布
-
 $$
 p(x,\ z \mid \theta)
 $$
-
 通过对可见变量$x$的观测和最大似然估计可知
-
 $$
 \begin{align*}
 \hat{\theta} &= \argmax_{\theta} \prod_{i = 1}^{n} p(x_{i} \mid \theta) \\ \\
@@ -96,19 +77,15 @@ $$
 &= \argmax_{\theta} \sum_{i = 1}^{n} \ln \int_{z} q_{i}(z) \frac{p(x_{i},\ z \mid \theta)}{q_{i}(z)} dz
 \end{align*}
 $$
-
 其中，$q_{i}(z)$是$z$的任意一个概率分布
 
 ### $Jasen$不等式
 
 凸函数$f(x)$满足性质
-
 $$
 f(\lambda x_{1} + (1 - \lambda) x_{2}) \ge \lambda f(x_{1}) + (1 - \lambda) f(x_{2}),\quad \lambda \in [0,\ 1]
 $$
-
 利用数学归纳法将以上性质进行拓展
-
 $$
 \begin{align*}
 f(\sum_{i = 1}^{n} \lambda_{i} x_{i}) &= f(\lambda_{1} x_{1} + (1 - \lambda_{1}) \sum_{i = 2}^{n} \frac{\lambda_{i}}{1 - \lambda_{1}} x_{i}) \\ \\
@@ -118,9 +95,7 @@ f(\sum_{i = 1}^{n} \lambda_{i} x_{i}) &= f(\lambda_{1} x_{1} + (1 - \lambda_{1})
 s.t.\quad &\sum_{i = 1}^{n} \lambda_{i} = 1,\quad \lambda_{i} \in [0,\ 1]
 \end{align*}
 $$
-
 假设随机变量$x$服从分布$p(x)$，根据凸函数的上述性质可得 **$Jasen$不等式**
-
 $$
 \begin{gather*}
 \int_{-\infty}^{+\infty} p(x) dx = 1,\quad p(x) \ge 0 \\
@@ -130,16 +105,12 @@ f(\int_{-\infty}^{+\infty} x p(x) dx) \ge \int_{-\infty}^{+\infty} f(x) p(x) dx 
 f(\mathcal{E}_{x} x) \ge \mathcal{E}_{x} f(x)
 \end{gather*}
 $$
-
 利用$Jasen$不等式将对数似然函数化为
-
 $$
 \ell(\theta) = \sum_{i = 1}^{n} \ln \int_{z} q_{i}(z) \frac{p(x_{i},\ z \mid \theta)}{q_{i}(z)} dz 
 \ge \sum_{i = 1}^{n} \int_{z} q_{i}(z) \ln \left[ \frac{p(x_{i},\ z \mid \theta)}{q_{i}(z)} \right] dz
 $$
-
 当$q_{i}(z) = p(z \mid x_{i},\ \theta)$时不等式取得等号
-
 $$
 \begin{gather*}
 \frac{p(x_{i},\ z \mid \theta)}{q_{i}(z)} = \frac{p(x_{i},\ z \mid \theta)}{p(z \mid x_{i},\ \theta)} = p(x,\ \theta) \\ \\
@@ -147,53 +118,41 @@ $$
 = \sum_{i = 1}^{n} \int_{z} q_{i}(z) \ln \left[ \frac{p(x_{i},\ z \mid \theta)}{q_{i}(z)} \right] dz = \sum_{i = 1}^{n} \ln p(x_{i},\ \theta)
 \end{gather*}
 $$
-
 令$q_{i}(z) = p(z \mid x_{i},\ \tilde{\theta})$，其中$\tilde{\theta}$是参数$\theta$的任一取值，可得
-
 $$
 \ell(\theta) \ge \sum_{i = 1}^{n} \mathcal{E}_{q_{i}(z)} \ln \left[ \frac{p(x_{i},\ z \mid \theta)}{p(z \mid x_{i},\ \tilde{\theta})} \right]
 $$
-
 当$\theta = \tilde{\theta}$时上式取得等号，即$\mathcal{E}_{q(z)} Q(\theta,\ \tilde{\theta})$是$\ell(\theta)$的紧下界，为了找到比$\ell(\tilde{\theta})$更大的似然函数值，令
-
 $$
 \begin{gather*}
 \begin{align*}
 \tilde{\theta} &\gets \argmax_{\theta} \sum_{i = 1}^{n} \mathcal{E}_{q_{i}(z)} \ln 
 \left[ \frac{p(x_{i},\ z \mid \theta)}{p(z \mid x_{i},\ \tilde{\theta})} \right] \\ \\
 &= \argmax_{\theta} \sum_{i = 1}^{n} \mathcal{E}_{q_{i}(z)} \ln p(x_{i},\ z \mid \theta) \\ \\
-&= \argmax_{\theta} \sum_{i = 1}^{n} \mathcal{E}_{q_{i}(z)} Q_{i}(\theta,\ \tilde{\theta}) \\ \\
-&= \argmax_{\theta} \sum_{i = 1}^{n} \int_{z} p(z,\ x_{i} \mid \tilde{\theta}) \ln p(x_{i},\ z \mid \theta) dz
+&= \argmax_{\theta} \sum_{i = 1}^{n} \mathcal{E}_{q_{i}(z)} Q_{i}(\theta,\ \tilde{\theta})
+= \argmax_{\theta} Q(\theta,\ \tilde{\theta})
 \end{align*} \\ \\
 q_{i}(z) = p(z \mid x_{i},\ \tilde{\theta}) = \frac{p(z,\ x_{i} \mid \tilde{\theta})}{p(x_{i} \mid \tilde{\theta})},\quad
 Q_{i}(\theta,\ \tilde{\theta}) = \ln p(x_{i},\ z \mid \theta)
 \end{gather*}
 $$
-
 反复进行上述的优化方法即可不断找到更大的似然函数值直至算法收敛
 
 # 贝叶斯估计
 
 **先验知识**；假设分布中的未知参数$\theta$是随机变量并且服从某个特定的分布
-
 $$
 p(\theta)
 $$
-
 **证据因子**；观测到样本集$D$的概率（不依赖参数$\theta$）
-
 $$
 p(D) = \int_{\Theta} p(D \mid \theta) p(\theta) d\theta
 $$
-
 **后验分布**；在观测到样本集$D$时未知参数$\theta$的概率密度
-
 $$
 p(\theta \mid D) = \frac{p(D \mid \theta) p(\theta)}{p(D)}
 $$
-
 **未见样本分布**；通过已观测到的样本集以及参数先验知识的基础上观测一个未见样本$\boldsymbol{x}$的概率密度
-
 $$
 p(\boldsymbol{x} \mid D) = \int_{\Theta} p(\boldsymbol{x};\ \theta \mid D) d\theta
 = \int_{\Theta} p(\boldsymbol{x} \mid \theta) p(\theta \mid D) d\theta
