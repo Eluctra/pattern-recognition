@@ -152,10 +152,25 @@ $$
 $$
 p(\theta \mid D) = \frac{p(D \mid \theta) p(\theta)}{p(D)}
 $$
+贝叶斯估计假设未见样本$\boldsymbol{x}$与样本集$D$的观测对于$\theta$条件独立
+$$
+p(\boldsymbol{x},\ D \mid \theta) = p(\boldsymbol{x} \mid \theta) p(D \mid \theta)
+$$
+将上式变形得到
+$$
+\frac{p(\boldsymbol{x},\ D,\ \theta)}{p(\theta)} = \frac{p(\boldsymbol{x},\ \theta)}{p(\theta)} \frac{p(D,\ \theta)}{p(\theta)} \Rightarrow \frac{p(\boldsymbol{x},\ D,\ \theta)}{p(D,\ \theta)} = \frac{p(\boldsymbol{x},\ \theta)}{p(\theta)}
+$$
+即
+$$
+p(\boldsymbol{x} \mid \theta,\ D) = p(\boldsymbol{x} \mid \theta)
+$$
 **未见样本分布**；通过已观测到的样本集以及参数先验知识的基础上观测一个未见样本$\boldsymbol{x}$的概率密度
 $$
-p(\boldsymbol{x} \mid D) = \int_{\Theta} p(\boldsymbol{x};\ \theta \mid D) d\theta
-= \int_{\Theta} p(\boldsymbol{x} \mid \theta) p(\theta \mid D) d\theta
+\begin{align*}
+	p(\boldsymbol{x} \mid D) &= \int_{\Theta} p(\boldsymbol{x},\ \theta \mid D) d\theta \\ \\
+	&= \int_{\Theta} p(\boldsymbol{x} \mid \theta,\ D) p(\theta \mid D) d\theta \\ \\
+	&= \int_{\Theta} p(\boldsymbol{x} \mid \theta) p(\theta \mid D) d\theta
+\end{align*}
 $$
 
 ### 正态分布参数的贝叶斯估计
@@ -163,19 +178,14 @@ $$
 * 单变量（$\sigma^2$已知）
 
 先验知识 &rArr; $\mu \sim N(\mu_{0},\ \sigma_{0}^2)$
-
 $$
 p(\mu) = \frac{1}{\sqrt{2\pi} \sigma_{0}} \exp\left[ -\frac{1}{2} \frac{(\mu - \mu_{0})^2}{\sigma_{0}^2} \right]
 $$
-
 似然函数
-
 $$
 p(D \mid \mu) = \prod_{k = 1}^{n} \frac{1}{\sqrt{2\pi} \sigma} \exp\left[ -\frac{1}{2} \frac{(x - \mu)^2}{\sigma^2} \right]
 $$
-
 后验分布
-
 $$
 \begin{align*}
 p(\mu \mid D) &= \frac{1}{p(D)} p(D \mid \mu) p(\mu) \\ \\
@@ -193,9 +203,7 @@ p(\mu \mid D) &= \frac{1}{p(D)} p(D \mid \mu) p(\mu) \\ \\
 \frac{\sigma^2 \sigma_{0}^2}{n\sigma_{0}^2 + \sigma^2} \right]
 \end{align*}
 $$
-
 经过样本集修正后的后验分布依然是一个正态分布
-
 $$
 \begin{gather*}
 p(\mu \mid D) \Rightarrow N(\mu_{D},\ \sigma_{D}^2) \\ \\
@@ -203,11 +211,8 @@ p(\mu \mid D) \Rightarrow N(\mu_{D},\ \sigma_{D}^2) \\ \\
 \frac{1}{\sigma_{D}^2} = \frac{n}{\sigma^2} + \frac{1}{\sigma_{0}^2}
 \end{gather*}
 $$
-
 考虑以下三种情况
-
 * $n \to \infty$（观测足够多的样本时，贝叶斯估计与最大似然估计的结果一致）
-
 $$
 \begin{gather*}
 \mu_{D} \to \bar{x} \\ \\
@@ -215,9 +220,7 @@ $$
 \Longrightarrow p(\mu = \bar{x} \mid D) \to 1
 \end{gather*}
 $$
-
 * $\sigma_{0}^2 \ll \sigma^2$（先验知识非常强，后验分布与先验知识一致）
-
 $$
 \begin{gather*}
 \mu_{D} \to \mu_{0} \\ \\
@@ -225,9 +228,7 @@ $$
 \Longrightarrow p(\mu \mid D) \to p(\mu)
 \end{gather*}
 $$
-
 * $\sigma_{0}^2 \gg \sigma^2$（先验知识非常弱，贝叶斯估计退化为最大似然估计）
-
 $$
 \begin{gather*}
 \mu_{D} \to \bar{x} \\ \\
@@ -237,7 +238,6 @@ $$
 $$
 
 未见样本概率密度
-
 $$
 \begin{align*}
 p(x \mid D) &= \int_{-\infty}^{+\infty} p(x \mid \mu) p(\mu \mid D) d\mu \\ \\
@@ -264,13 +264,11 @@ p(x \mid D) &= \int_{-\infty}^{+\infty} p(x \mid \mu) p(\mu \mid D) d\mu \\ \\
 \sim N(\mu_{D},\ \sigma^2 + \sigma_{D}^2)
 \end{align*}
 $$
-
 从效果来看$\mu$被看作$\mu_{D}$，而$\mu$的不确定性$\sigma_{D}^2$传递到未见样本分布上
 
 * 多变量情况（$\boldsymbol{\Sigma}$已知）
 
 类似于单变量，此处暂时省略推导过程，直接给出后验概率和未见样本分布
-
 $$
 \begin{gather*}
 p(\mu \mid D) \sim N(\mu_{D},\ \boldsymbol{\Sigma_{D}}) \\ \\
@@ -283,19 +281,14 @@ $$
 ### 贝叶斯增量式学习（递归学习）
 
 样本个数为$n$时的样本集
-
 $$
 D^n = \left \{ \boldsymbol{x}_{1},\ \boldsymbol{x}_{2},\ \cdots,\ \boldsymbol{x}_{n} \right\}
 $$
-
 考虑到样本集的样本条件独立地被观测
-
 $$
 p(D^n \mid \theta) = p(\mathcal{x}_{n} \mid \theta) p(D^{n - 1} \mid \theta)
 $$
-
 被新增样本$\boldsymbol{x}_{n}$更新后的后验概率
-
 $$
 \begin{align*}
 p(\theta \mid D^n) &= \frac{p(D^n \mid \theta) p(\theta)}{p(D^n)} \\ \\
@@ -304,11 +297,8 @@ p(\theta \mid D^n) &= \frac{p(D^n \mid \theta) p(\theta)}{p(D^n)} \\ \\
 &\propto p(\mathcal{x}_{n} \mid \theta) p(\theta \mid D^{n - 1})
 \end{align*}
 $$
-
 其中
-
 $$
 p(\theta \mid D^{0}) = p(\theta)
 $$
-
 代表未经过样本更新的参数分布，即原始的先验知识
