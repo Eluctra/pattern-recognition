@@ -103,10 +103,7 @@ p(\omega_{1}) + p(\omega_{2}) = 1,\quad \int_{\mathcal{R}_{1}} p(\boldsymbol{x} 
 $$
 将总风险化为
 $$
-\begin{align*}
-\mathfrak{R}(p(\omega_{1})) &= \lambda_{22} + (\lambda_{12} - \lambda_{22}) \int_{\mathcal{R}_{1}} p(\boldsymbol{x} \mid \omega_{2}) d\boldsymbol{x} + p(\omega_{1}) \left [ (\lambda_{11} - \lambda_{21}) \int_{\mathcal{R}_{1}} p(\boldsymbol{x} \mid \omega_{1}) d\boldsymbol{x} - (\lambda_{12} - \lambda_{22}) \int_{\mathcal{R}_{1}} p(\boldsymbol{x} \mid \omega_{2}) d\boldsymbol{x} + (\lambda_{21} - \lambda_{22}) \right ] \\ \\
-&= \mathfrak{R}_{mm} + \mu p(\omega_{1})
-\end{align*}
+\mathfrak{R}(p(\omega_{1})) = \mathfrak{R}_{mm} + \mu p(\omega_{1})
 $$
 其中
 $$
@@ -157,7 +154,7 @@ g(\boldsymbol{x}) = g_{1}(\boldsymbol{x}) - g_{2}(\boldsymbol{x}) \\ \\
 $$
 假设在每一类中样本特征$\mathbf{X} \sim N(\boldsymbol{\mu},\ \boldsymbol{\Sigma})$，即
 $$
-p(\boldsymbol{x}) = \frac{1}{(2\pi)^{\frac{d}{2}} \left| \boldsymbol{\Sigma} \right\|^{\frac{1}{2}} }
+p(\boldsymbol{x}) = \frac{1}{(2\pi)^{\frac{d}{2}} \left| \boldsymbol{\Sigma} \right|^{\frac{1}{2}} }
 \exp \left[ -\frac{1}{2} (\boldsymbol{x} - \boldsymbol{\mu})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} (\boldsymbol{x} - \boldsymbol{\mu}) \right]
 $$
 取判别函数为
@@ -226,21 +223,21 @@ $$
 g(\boldsymbol{x}) &= g_{1}(\boldsymbol{x}) - g_{2}(\boldsymbol{x}) \\ \\
 &= (\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{x} -
 \frac{1}{2} (\boldsymbol{\mu}_{1}^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2}^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_{2}) +
-ln{\frac{p(\omega_{1})}{p(\omega_{2})}} \\ \\
+\ln{\frac{p(\omega_{1})}{p(\omega_{2})}} \\ \\
 &= (\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{x} -
 \frac{1}{2} \left[\boldsymbol{\mu}_{1}^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{1}^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_{2} +
 \boldsymbol{\mu}_{1}^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_{2} - \boldsymbol{\mu}_{2}^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_{2}\right] +
-ln{\frac{p(\omega_{1})}{p(\omega_{2})}} \\ \\
+\ln{\frac{p(\omega_{1})}{p(\omega_{2})}} \\ \\
 &= (\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{x} -
 \frac{1}{2} \left[\boldsymbol{\mu}_{1}^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} (\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2}) +
 (\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_{2}\right] +
-ln{\frac{p(\omega_{1})}{p(\omega_{2})}} \\ \\
+\ln{\frac{p(\omega_{1})}{p(\omega_{2})}} \\ \\
 &= (\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{x} -
 \frac{1}{2} \left[(\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_{1} +
 (\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_{2}\right] +
-ln{\frac{p(\omega_{1})}{p(\omega_{2})}} \\ \\
+\ln{\frac{p(\omega_{1})}{p(\omega_{2})}} \\ \\
 &= (\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \boldsymbol{x} -
-\frac{1}{2} (\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} (\boldsymbol{\mu}_{1} +\boldsymbol{\mu}_{2}) + ln{\frac{p(\omega_{1})}{p(\omega_{2})}} \\ \\
+\frac{1}{2} (\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} (\boldsymbol{\mu}_{1} +\boldsymbol{\mu}_{2}) + \ln{\frac{p(\omega_{1})}{p(\omega_{2})}} \\ \\
 &= (\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2})^{\mathrm{T}} \boldsymbol{\Sigma}^{-1} \left[ \boldsymbol{x} - \frac{\boldsymbol{\mu}_{1} + \boldsymbol{\mu}_{2}}{2} +
 \frac{\boldsymbol{\Sigma}(\boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2})}{\mid\mid \boldsymbol{\mu}_{1} - \boldsymbol{\mu}_{2} \mid\mid^{2}}\ln{\frac{p(\omega_{1})}{p(\omega_{2})}}\right]
 = \boldsymbol{w} ^{\mathrm{T}} (\boldsymbol{x} - \boldsymbol{x}_{0})
